@@ -32,6 +32,28 @@ window.onload = () => {
             <div>${newMessage.val().text}</div>
         `;
     });
+  //Un valor de marcador de posición para completar automáticamente la marca de tiempo actual (tiempo transcurrido desde la época de Unix, en milisegundos) según lo determinen los servidores de Firebase.
+  let sessionsRef = firebase.database().ref("sessions");
+  sessionsRef.push({
+    startedAt: firebase.database.ServerValue.TIMESTAMP
+  });
+  //crear nuevo usuario
+  const functions = require('firebase-functions');
+  const admin = require('firebase-admin');
+  admin.initializeApp(functions.config().firebase);
+  functions.auth.user().onCreate(event => {
+      
+    const user = event.data;
+  
+    var userObject = {
+      displayName : user.displayName,
+      email : user.email,
+      photoUrl : user.photoURL,
+      createdOn : user.metadata.createdAt
+    };
+    admin.database().ref('users/' + user.uid).set(userObject);
+  });
+//aquí termina crear nuevo usuario
 };
 //===============================LOGIN========================================
 //Aquí va la función de iniciar sesión con email
