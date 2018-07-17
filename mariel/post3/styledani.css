@@ -115,3 +115,12 @@ i {
   background-color: #FFFFFF;
   margin: 0%;
 }
+
+.btn-post{
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  color: beige;
+  border-width: 0px;
+  border-style: none;
+ 
+}
