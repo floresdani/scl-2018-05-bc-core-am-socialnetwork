@@ -1,16 +1,33 @@
-// Daniela (Login)
 window.onload = () => {
+  
+  // Llevarme a la ventana de login al presionar botón Entrar 
+  const entrar = document.getElementById('btn-entrar');
+  entrar.addEventListener('click', () => {
+   loggedOut.style.display ="block";
+   landingPage.style.display ="none";
+  });
+
+  // Llevarme a la ventana de crear cuenta al presionar botón Registro
+  const registro = document.getElementById('registerBtn');
+  registro.addEventListener('click', () => {
+    loggedOut.style.display ="none";
+    registerPage.style.display ="block";
+  });
+
+//--------Daniela--------
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       //Si estamos logueados
       loggedOut.style.display = "none";
-      loggedIn.style.display = "block";
+      navBar.style.display = "block";
+      loggedHome.style.display = "block";
       console.log("User > " + JSON.stringify(user));
     } else {
       //No estamos logueados
-      loggedOut.style.display = "block";
-      loggedIn.style.display = "none";
+      navBar.style.display = "none";
+      loggedHome.style.display = "none";
     }
+
   });
 
   firebase.database().ref('messages')
@@ -23,15 +40,17 @@ window.onload = () => {
 
     });
 
-    const entrar = document.getElementById('btn-entrar');
-
-    entrar.addEventListener('click', () => {
-      landingPage.style.display= "none";
-      loginPage.style.display= "block";
-    }
-
-
-    
+  //Acá comenzamos a escuchar por nuevos mensajes usando el evento
+  //on child_added
+  firebase.database().ref('messages')
+    .limitToLast(1)//cuántos post aparecerán antes de ser borrados
+    .on('child_added', (newMessage) => {
+      addPostUser.innerHTML += `
+            <div>${newMessage.val().creatorName}</div>
+            <div>${newMessage.val().text}</div>
+        `;
+    });
+};
 //===============================LOGIN========================================
 //Aquí va la función de iniciar sesión con email
 function login() {
@@ -151,36 +170,13 @@ function sendMessage() {
   });
 }
 
-/*
+// ------Mariel-----
 
-$('#loginGoogleBtn').click(function(){
-  firebase.auth()
-  .signInWhitPopup(provider)
-  .then(function(result) {
-    console.log(result.user);
-    guardaDatos(result.user);
-    $('#logInPage').hide();
-    $('#root').append("<img src'"+result.user.photoURL+"' />") //agregando etiqueta imagen al div root en el muro
-  });
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
 
-// Guardando datos automáticamente
-
-function guardaDatos(user) {
-  const usuario = {
-    uid: user.uid,
-    nombre: user.displayName,
-    email: user.email,
-    foto: user.photoURL
-  }
-  firebase.datebase().ref("perfil")
-  .push(usuario)
-}
-*/
-
-
-// Mariel (Registro)
-//tomar valores del DOM
 const userName = document.getElementById("name_input" );
+//tomar valores del DOM
 const errorNombre = document.getElementById("error_nombre");
 const userAge = document.getElementById("edad_input");
 const email = document.getElementById("email");
@@ -192,6 +188,7 @@ const errorConfirmPassword = document.getElementById("error_confirm_password");
 const rememberMe = document.getElementById("rememeber_check");
 const agree = document.getElementById("terms_check");
 const createAcountBtn = document.getElementById("create_acount_button");
+
 
 //validar que el nombre sean solo letras 
 userName.addEventListener('keyup', () =>{
@@ -217,7 +214,7 @@ confirmPassword.addEventListener('keyup', () => {
   if(password.value === confirmPassword.value){
     errorConfirmPassword.innerHTML = " ";
   } else {
-    errorConfirmPassword.innerHTML = "Por favor revisa, la contraseña debe coincidir";
+    errorConfirmPassword.innerHTML = "Porfavor revisa la contraseña debe coincidir";
   }
 })
 
@@ -245,40 +242,45 @@ rememberMe.addEventListener('change', saveLocalUser, false);
     }
   }
 			
-//llevarme a la siguiente ventana con el boton 
+//llevarme al muro (Home page) al presionar botón registrar 
 createAcountBtn.addEventListener('click', () => { 
     const emailVal = email.value; 
     const passwordVal = password.value; 
     //crear esta cuenta en firebase (con el boton crear cuenta)
     firebase.auth().createUserWithEmailAndPassword(emailVal, passwordVal)
     .then(() => {
-      //cambiar de seccion
+    //cambiar de seccion
+    const registro = document.getElementById('');
+    registrar.addEventListener('click', () => {
+      loggedOut.style.display ="none";
+      registerPage.style.display ="block";
+    });
     const hideSection = document.getElementById('registerPage');
-    hideSection.style.display = "none";
-    
-    const showSection = document.getElementById('homePage');
-    showSectio.style.display = "block";
+    const showSection = document.getElementById('navBar');
+    const showSection = document.getElementById('loggedHome');
 
+    hideSection.style.display = "none";
+    showSection.style.display = "block";
+    
+    //crear coleccion de usuarios
+    const user = firebase.auth().currentUser;
+
+    db.collection("users").add({
+      nombre:  userName.value,
+      id: user.uid,
+      email: user.email,
+      edad : userAge.value
+    })
+    .then(function(docRef) {
+      //console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
     }) 
     .catch((error) => {
       console.log('fallo el registro', error);
     })
 })
 
-// Homepage (barbara)
-
-function postUser() {
-  const currentUser = firebase.auth().currentUser;
-  const postAreaText = postArea.value;
-
-  // Para obtener una nueva llave en la colección posts
-  const newPostKey = firebase.database().ref().child('posts').push().key;
-
-  firebase.database().ref(`posts/${newPostKey}`).set({ // ref(ruta donde guardamos el mensaje), se está creando un nuevo objeto
-      creator : currentUser.uid,
-      creatorName : currentUser.displayName,
-      text : postAreaText
-});
-}
-
- 
+    
