@@ -1,19 +1,88 @@
+body {
+  background-color: #A7D9A2;
+}
+
+/*Estilo login (Daniela)*/
+
+#logInPage {
+  display: block;
+}
+
+h1, h2, h4 {
+  text-align: center;
+}
+ 
+#logo {
+  background-color: #59A686;
+}
+
+#loggedOut {
+  margin-top: 5em;
+}
+
+#loginFacebookBtn, #loginGoogleBtn {
+  border-radius: 50%;
+  border-color: transparent;
+  border-width: 0px;
+  padding: 0px;
+  display: inline;
+}
+
+.btnBlue {
+  background: #00BCD4;
+  border-radius: 2px;
+  color: beige;
+}
+
+.btnBlueEnter {
+  background: #00BCD4;
+  border-radius: 2px;
+  margin-top: 2em;
+  margin-bottom: 3em;
+  color: beige;
+}
+
+#btnLoginWith {
+  text-align: center;
+  margin-left: 0px;
+}
+
+#containerBtn {
+  text-align: center;
+}
+  
+.input_container {
+  margin-bottom: 1em;
+}
+
+#div_btn {
+  width: 30%;
+  margin: auto;
+}
+
+#register_container {
+margin-top: 4em;
+}
+ 
+.btn_container {
+  margin-top: 1em;
+}
+
+/*Estilo Registro (Mariel)*/
+#registerPage{
+  display: none;
+  padding: 0%;
+}
+
 header{
   background: #59A686;
   height: 76px;
 }
 
-body{
-  background-color: #A7D9A2;
-}
-#register_section{
-  display: block;
-  padding: 0%;
-  
-}
 .col-12{
   background-color: #A7D9A2;
 }
+
 #form_section{
   margin: auto;
   text-align: center;
@@ -22,9 +91,11 @@ body{
   font-weight: normal;
   color: rgba(0, 0, 0, 0.87);
 }
+
 #title{
   font-size: large;
 }
+
 #inputs_div{
 
 }
@@ -47,7 +118,6 @@ body{
 #validation_div{
   text-align: center;
   padding: 0%;
- 
 }
 
 .error{
@@ -79,7 +149,6 @@ body{
   display: inline;
   margin-top: auto;
   margin-bottom: auto;
-
 }
 
 #create_acount_button{
@@ -93,4 +162,10 @@ body{
   font-size: smaller;
   text-align: center;
   margin-top: 9%;
+}
+
+/*Muro (Barbara)*/
+
+#homePage {
+  display: none;
 }
