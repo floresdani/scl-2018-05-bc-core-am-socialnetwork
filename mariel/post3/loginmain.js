@@ -14,12 +14,11 @@ window.onload = () => {
       const postArea = document.getElementById("postArea");
       
       postbtn.addEventListener('click', () =>{ 
-        postArea.value = " "; 
+        validatePost();
         const currentUser = firebase.auth().currentUser;
         const postAreaText = postArea.value;
 
-        db.collection("users").get()
-        .then((querySnapshot) => {
+        db.collection("users").onSnapshot((querySnapshot) => {
           
           querySnapshot.forEach((doc) => {
             
@@ -30,28 +29,20 @@ window.onload = () => {
               texto : postAreaText
             }) 
             let  showPostArea = document.getElementById("addPostUser");
-              db.collection("usersPost").get()
-              .then((querySnapshot) => {
-                
+              db.collection("usersPost").onSnapshot((querySnapshot) => {
+                showPostArea.innerHTML = " ";
                 querySnapshot.forEach((doc) => {
-                 
+                   postArea.value = " "; 
                     // doc.data() is never undefined for query doc snapshots
                     //console.log(doc.id, " => ", doc.data().texto);
                     showPostArea.innerHTML +=  `
                     <div class = "row">
-                    <div>Nombre : ${doc.data().nombre}</div> 
-                    <div>Mensaje : ${doc.data().texto}</div>
+                    <div>${doc.data().nombre} </div> 
+                    <div> : ${doc.data().texto}</div>
+                    <div><button class = "btn-post"><i class="fas fa-heart"></i></button></div>
+                    <div><button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button></div>
+                    <div><button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button></div>
                     </div>`;
-                    //crear ícono de comentario
-  const commentIcon = document.createElement('i');
-  commentIcon.classList.add('far', 'fa-comment-alt');
-  //crear ícono de me gusta
-  const likeIcon = document.createElement('i');
-  likeIcon.classList.add('fas', 'fa-heart', 'heart');
-  //crear ícono de agregar a amigos
-  const addUserIcon = document.createElement('i');
-  addUserIcon.classList.add('fas', 'fa-user-plus');
-                    //console.log(`${doc.id} => ${doc.data().texto}`);
                 });
             })
           })
@@ -67,6 +58,8 @@ window.onload = () => {
     }
   });
 
+  
+  
   /* firebase.database().ref('post')
     .limitToLast(10) // Filtro para no obtener todos los mensajes
     .once('value')
@@ -150,6 +143,50 @@ function loginGoogle() {
 }
 
 }
+//validar que no este vacio para postear
+function validatePost(){
+  const postValue = document.getElementById("postArea").value;
+  if(postValue.length === 0){
+    prompt("texto vacio");
+  }
+}
+//Funcion de eliminar post 
+function eliminarPost(id){
+  db.collection("usersPost").doc(id).delete().then(function() {
+    console.log("Document successfully deleted!");
+   }).catch(function(error) {
+    console.error("Error removing document: ", error);
+});
+}
+
+//funcion de editar post
+
+function editarPost(id, texto){
+
+  document.getElementById("postArea").value = texto;
+  const editButton = document.getElementById("btn-post");
+  editButton.innerHTML = "Guardar"; 
+  editButton.onclick = function(){
+    var washingtonRef = db.collection("usersPost").doc(id); 
+
+      let newText = document.getElementById("postArea").value;
+
+    // Set the "capital" field of the city 'DC'
+      return washingtonRef.update({
+        texto : newText
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+          editButton.innerHTML = "Postear"; 
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+  }
+  
+}
+
 //========================================HOME========================================
 // Homepage
 
