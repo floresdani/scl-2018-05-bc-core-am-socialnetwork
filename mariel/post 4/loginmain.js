@@ -26,7 +26,7 @@ window.onload = () => {
       loggedOut.style.display = "block";
       loggedIn.style.display = "none";
     }
-  }})
+  })}
 
 
 //===============================LOGIN========================================
