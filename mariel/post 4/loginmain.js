@@ -9,7 +9,15 @@ window.onload = () => {
       //Si estamos logueados
       loggedOut.style.display = "none";
       loggedIn.style.display = "block";   
-      
+      //const user = firebase.auth().currentUser;
+      //if(user){
+      //console.log(user);  
+      //db.collection("users").add({
+        //nombre:  user.displayName,
+        //id: user.uid,
+        //email: user.email,
+        //edad : userAge.value
+      //})
        //Mostrar post anteriores del usuario 
       savePost();
 
@@ -53,6 +61,14 @@ function loginFacebook() {
   firebase.auth().signInWithPopup(provider)
     .then(() => {
       console.log("Login con facebook");
+      const user = firebase.auth().currentUser;
+
+    db.collection("users").add({
+      nombre:  user.displayName,
+      id: user.uid,
+      email: user.email,
+      edad : userAge.value
+    })
     })
     .catch((error) => {
       console.log("Error de firebase" + error.code);
@@ -65,11 +81,13 @@ function loginGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithRedirect(provider);
   firebase.auth().getRedirectResult().then(function (result) {
+    
+  })
     // This gives you a Google Access Token. You can use it to access the Google API.
     //let token = result.credential.accessToken;
     // The signed-in user info.
     //let user = result.user;
-  }).catch(function (error) {
+  .catch(function (error) {
     console.log('entrar' + error);
     // Handle Errors here.
     let errorCode = error.code;
@@ -81,8 +99,107 @@ function loginGoogle() {
 
   });
 }
+//=======================================REGISTRO=====================================
+const userNameInput = document.getElementById("name_input" );
+//tomar valores del DOM
+const errorNombre = document.getElementById("error_nombre");
+const userAge = document.getElementById("edad_input");
+const email = document.getElementById("email_register");
+
+const password = document.getElementById("password_register"); 
+
+const password2 = document.getElementById("password_register");
+const errorMsg = document.getElementById("error_password")
+const confirmPassword = document.getElementById("confirm_password");
+const errorConfirmPassword = document.getElementById("error_confirm_password");
+const rememberMe = document.getElementById("rememeber_check");
+const agree = document.getElementById("terms_check");
+const createAcountBtn = document.getElementById("create_acount_button");
 
 
+
+//validar que el nombre sean solo letras 
+userNameInput.addEventListener('keyup', () =>{
+  var letras=/^[A-Za-z\_\-\.\s\xF1\xD1]+$/;
+  if(letras.test(userNameInput.value)) {
+    errorNombre.innerHTML = " ";
+  } else {
+    errorNombre.innerHTML = "El nombre debe contener solo letras";
+  }
+})
+
+//validar que la contraseña tenga minimo 6 caracteres
+password2.addEventListener('keyup', () =>{
+  if(password2.value.length < 6) {
+    errorMsg.innerHTML = "La contraseña debe tener minimo 6 caracteres";
+  } else if(password2.value.length >= 6) {
+    errorMsg.innerHTML = " ";
+  }
+})
+
+//validar que sea la misma contraseña 
+confirmPassword.addEventListener('keyup', () => {
+  if(password.value === confirmPassword.value){
+    errorConfirmPassword.innerHTML = " ";
+  } else {
+    errorConfirmPassword.innerHTML = "Porfavor revisa la contraseña debe coincidir";
+  }
+})
+
+//validar que acepte los terminos y condiciones 
+agree.addEventListener('change', validateAgree, false); 
+function validateAgree(){
+  let checked = agree.checked;
+  if(checked){
+    createAcountBtn.disabled = false;
+  } else {
+    createAcountBtn.disabled = true;
+  }
+}
+
+//guardar estos valores en un usuario con local storage (con el boton recordar)
+rememberMe.addEventListener('change', saveLocalUser, false);  
+
+  function saveLocalUser(){
+    let checked = rememberMe.checked; 
+    if(checked){
+      window.localStorage.setItem('password', JSON.stringify(password_register.value));
+      window.localStorage.setItem('email', JSON.stringify(email_register.value));
+      window.localStorage.setItem('nombre', JSON.stringify(userName.value));
+      window.localStorage.setItem('edad', JSON.stringify(userAge.value));
+    }
+  }
+			
+//llevarme a la siguiente ventana con el boton 
+createAcountBtn.addEventListener('click', () => { 
+    const emailVal = email.value; 
+    const passwordVal = password.value; 
+    //crear esta cuenta en firebase (con el boton crear cuenta)
+    firebase.auth().createUserWithEmailAndPassword(emailVal, passwordVal)
+    .then(() => {
+      //cambiar de seccion
+    const hideSection = document.getElementById('register_section');
+    hideSection.style.display = "none";
+    //crear coleccion de usuarios
+    const user = firebase.auth().currentUser;
+
+    db.collection("users").add({
+      nombre:  userNameInput.value,
+      id: user.uid,
+      email: user.email,
+      edad : userAge.value
+    })
+    .then(function(docRef) {
+      //console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+    }) 
+    .catch((error) => {
+      console.log('fallo el registro', error);
+    })
+})
 //========================================HOME========================================
 
 //validar que no este vacio para postear
@@ -119,14 +236,14 @@ postbtn.addEventListener('click', () =>{
 db.collection("users").get().then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
   userName = doc.data().nombre;
-  console.log(userName);
+  //console.log(userName);
 }) 
 })
 //funcion que guarda el texto
 db.collection("usersPost").get().then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
   textSaved = doc.data().texto;
-  console.log(userName);
+  //console.log(userName);
 }) 
 
 })
