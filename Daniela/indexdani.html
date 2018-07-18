@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    <!-- Aquí comienza página HOME -->
+    <!--========================== Aquí comienza página HOME ============================-->
     <div id="loggedHome">
       <!--Navbar-->
       <div id="post_container">
@@ -152,9 +152,69 @@
           </div>
         </div>
       </div>
-      <!-- Aquí termina página HOME -->
+      <!-- ============================Aquí termina página HOME ====================== -->
     </div>
 
+    <!-- ========================= Comienzo de página CHAT ===================-->
+    <section id="loggedChat">
+      <div id="sidenav" class="row">
+        <!-- Aquí comienza contenedor lateral izquierdo -->
+        <div class="col-md-2">
+          <nav>
+            <div class="friends">
+              <img src="img/avatar.png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (1).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (2).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (3).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (4).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (5).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (6).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+          </nav>
+          <!-- Aquí termina contenedor lateral izquierdo con los usuarios amigos -->
+        </div>
+        <!-- Aquí comienza contenedor derecho con los mensanjes de los usuarios amigos -->
+        <div class="col-md-10">
+<div id="boxChat">
+  <div id="chatMessages">
+    <div id="nameChatFriend">
+      <h4>Nombre</h4>
+      <div id="addChatUser">
+        <!-- Aquí van los mensajes enviados del chat -->
+      </div>
+    </div>
+  </div>
+  <textarea id="textAreaChat" cols="80" rows="4" placeholder="Ingresa un mensaje"></textarea>
+</div>
+<div id="boxBtnChat">
+  <button id="btnChat" onclick="sendChat()">Enviar</button>
+</div>
+          <!-- Aquí comienza contenedor derecho con los mensanjes de los usuarios amigos -->
+        </div>
+
+
+      </div>
+      <!-- ========================= Termino de página CHAT ===================-->
+    </section>
     <!-- link de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
     <script>
@@ -176,8 +236,9 @@
       crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
       crossorigin="anonymous"></script>
-    <!-- link de Javascript -->
+    <!-- links de Javascript -->
     <script src="maindani.js"></script>
+    <script src="datadani.js"></script>
 </body>
 
 </html>
