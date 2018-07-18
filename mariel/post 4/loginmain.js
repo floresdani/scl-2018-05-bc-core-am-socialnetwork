@@ -9,47 +9,57 @@ window.onload = () => {
       //Si estamos logueados
       loggedOut.style.display = "none";
       loggedIn.style.display = "block";
-      //console.log("User > " + JSON.stringify(user));
+    
+      //guardar valores del DOM 
       const postbtn = document.getElementById("btn-post");
       const postArea = document.getElementById("postArea");
       
+      //Mostrar post anteriores del usuario 
+      savePost()
+      //evento del boton postear
       postbtn.addEventListener('click', () =>{ 
         validatePost();
         const currentUser = firebase.auth().currentUser;
         const postAreaText = postArea.value;
-
+        //llamando a la coleccion usuarios desde database 
+        //escuchando el evento onSnapshot, cada vez que se crea un post
         db.collection("users").onSnapshot((querySnapshot) => {
           
           querySnapshot.forEach((doc) => {
             
             let userName = doc.data().nombre;
+            //añadiendo una nueva coleccion
             db.collection("usersPost").add({
               nombre : userName,
               usuario:  currentUser.uid,
               texto : postAreaText
             }) 
             let  showPostArea = document.getElementById("addPostUser");
+            //llamando a la nueva coleccion y refrescando el input 
               db.collection("usersPost").onSnapshot((querySnapshot) => {
                 showPostArea.innerHTML = " ";
                 querySnapshot.forEach((doc) => {
                    postArea.value = " "; 
-                    // doc.data() is never undefined for query doc snapshots
-                    //console.log(doc.id, " => ", doc.data().texto);
-                    showPostArea.innerHTML +=  `
-                    <div class = "row">
-                    <div>${doc.data().nombre} </div> 
-                    <div> : ${doc.data().texto}</div>
-                    <div><button class = "btn-post"><i class="fas fa-heart"></i></button></div>
-                    <div><button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button></div>
-                    <div><button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button></div>
-                    </div>`;
+                  //imprimiendo en html el post 
+                  showPostArea.innerHTML +=  `
+                  <div class = "input_text_post">             
+                  <div>${doc.data().nombre} </div> 
+                  <div> : ${doc.data().texto}</div>
+                  <button class = "btn-post"><i class="fas fa-heart"></i></button>
+                  <button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button>
+                  <button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button>
+                  </div>
+                  `;
+                  
+
                 });
             })
           })
       
       })  
 
-    })  
+    }) 
+
 
     } else {
       //No estamos logueados
@@ -58,29 +68,7 @@ window.onload = () => {
     }
   });
 
-  
-  
-  /* firebase.database().ref('post')
-    .limitToLast(10) // Filtro para no obtener todos los mensajes
-    .once('value')
-    .then((messages) => {
-      console.log("Post" + JSON.stringify(messages));
-    })
-    .catch(() => {
 
-    });
-
-  //Acá comenzamos a escuchar por nuevos mensajes usando el evento
-  //on child_added
-  firebase.database().ref('messages')
-    .limitToLast(10)//cuántos post aparecerán antes de ser borrados
-    .on('child_added', (newMessage) => {
-      addPostUser.innerHTML += `
-            <div>Nombre : ${newMessage.val().creatorName}</div>
-            <div>${newMessage.val().text}</div>
-        `;
-    });
-}; */
 //===============================LOGIN========================================
 //Aquí va la función de iniciar sesión con email
 function login() {
@@ -150,9 +138,32 @@ function validatePost(){
     prompt("texto vacio");
   }
 }
+
+//funcion para dejar post guardados en la pagina 
+function savePost(){
+  const showSavedPost = document.getElementById("savedPost");
+
+  db.collection("usersPost").onSnapshot((querySnapshot) => {
+    
+    querySnapshot.forEach((doc) => { 
+      
+      showSavedPost.innerHTML +=  `
+      <div class = "input_text_post">             
+      <div>${doc.data().nombre} </div> 
+      <div> : ${doc.data().texto}</div>
+      <button class = "btn-post"><i class="fas fa-heart"></i></button>
+      <button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button>
+      <button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button>
+      </div>
+      `;
+    });
+  })  
+}
+
 //Funcion de eliminar post 
 function eliminarPost(id){
   db.collection("usersPost").doc(id).delete().then(function() {
+    
     console.log("Document successfully deleted!");
    }).catch(function(error) {
     console.error("Error removing document: ", error);
@@ -167,12 +178,12 @@ function editarPost(id, texto){
   const editButton = document.getElementById("btn-post");
   editButton.innerHTML = "Guardar"; 
   editButton.onclick = function(){
-    var washingtonRef = db.collection("usersPost").doc(id); 
+    let postCollection = db.collection("usersPost").doc(id); 
 
       let newText = document.getElementById("postArea").value;
 
-    // Set the "capital" field of the city 'DC'
-      return washingtonRef.update({
+    
+      return postCollection.update({
         texto : newText
       })
       .then(function() {
