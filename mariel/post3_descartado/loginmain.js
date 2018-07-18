@@ -17,7 +17,7 @@ window.onload = () => {
       postbtn.addEventListener('click', () =>{ 
         validatePost();
         const currentUser = firebase.auth().currentUser;
-        const postAreaText = postArea.value;
+        const postAreaText = postArea.value;  
         //llamando a la coleccion usuarios desde database 
         //escuchando el evento onSnapshot, cada vez que se crea un post
         db.collection("users").onSnapshot((querySnapshot) => {
