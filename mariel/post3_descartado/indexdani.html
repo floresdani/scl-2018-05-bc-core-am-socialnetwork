@@ -76,10 +76,11 @@
         </div>
       </div>
     </div>
+
     <!-- Aquí comienza página HOME -->
-    <div id="loggedHome">
+    <section id="loggedHome">
       <!--Navbar-->
-      <div id="post_container">
+      
         <nav class="navbar navbar-expand-lg navbar-light">
           <a class="navbar-brand" href="#">Muro</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -102,54 +103,53 @@
             </ul>
           </div>
         </nav>
-        <div id="user-post-container" class="row">
-          <div class="col-1">
-            <img src="img/usuario.png">
-          </div>
-          <div class="col-11">
-            <textarea class="txt" id="postArea" placeholder="¿Qué quieres publicar?"></textarea>
-          </div>
-        </div>
 
-        <div class="container">
-          <div class="row">
-            <div class="col-sm">
-              <div>
-                <div id="btn-images">
-                  <button class="btn-img" type="button">
-                    <img class="images-icon" src="img/picture.png">
-                    <i class="fas fa-plus"></i>
-                  </button>
+        <!--Aca comienza la tarjeta del nuevo post-->
+        <div id="new-post-container" class = "container col-xs-8 col-sm-12 col-md-8 col-lg-8">
+          <div> <!--input texto-->
+            <textarea class="txt col-12 input_text_post" id="postArea" placeholder="¿Qué quieres publicar?"></textarea>
+          </div> <!-- CIERRE input texto-->
+        
+         <hr />
+            <div class="row" id="newPostFunctions_container"><!--Iconos y boton debajo del texarea-->
+                
+                   <!--foto usuario-->
+                    <img id="userPicture_newPost" src="img/usuario.png">
+                   <!-- cierre foto usuario-->
+                   <!--añadir imagen-->
+                    <button  id="btn-addImages"  type="button">
+                      <img id="images-icon" src="img/picture.png">
+                      <i id="plus-icon" class="fas fa-plus"></i>
+                    </button>
+                   <!-- cierre añadir imagen-->
 
-                  <div id="tags">
-                    <form>
-                      <select>
-                        <option selected>Selecione categoría</option>
-                        <option value="1">Compost</option>
-                        <option value="3">Ecología</option>
-                        <option value="3">Energías renovables</option>
-                        <option value="3">Lombricultura</option>
-                        <option value="3">Reciclaje</option>
-                        <option value="3">Outdoor</option>
-                        <option value="2">Vida sana</option>
-                      </select>
-                    </form>
-                  </div>
-                </div>
-                <div >
-                  <button id="btn-post" type="button" class="btnBlue" >Publicar</button>
-                </div>
-              </div>
-              <div id="postUserContainer">
-                <div id="addPostUser">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Aquí termina página HOME -->
-    </div>
+                    <!--SELECTOR DE TAG-->
+                      <form id="formTag">
+                        <select id="tags">
+                          <option selected>TAG</option>
+                          <option value="1">Compost</option>
+                          <option value="3">Ecología</option>
+                          <option value="3">Energías renovables</option>
+                          <option value="3">Lombricultura</option>
+                          <option value="3">Reciclaje</option>
+                          <option value="3">Outdoor</option>
+                          <option value="2">Alimentacion sana</option>
+                        </select>
+                      </form>
+                  <!-- CIERRE SELECTOR DE TAG-->
+                  
+                   <!--boton postear-->
+                    <button id="btn-post" type="button" class="btnBlue" >Publicar</button>
+                  <!--cierre boton postear-->
+             
+            </div><!--FIN Iconos y boton debajo del texarea-->
+        </div> <!--Aca termina la tarjeta nuevo post-->
+       
+        <!--Aca se imprime el nuevo post del usuario-->
+       <div id="addPostUser"></div>
+      
+     
+      </section>  <!-- Aquí termina página HOME -->
 
     <!-- link de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
