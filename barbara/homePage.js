@@ -59,21 +59,29 @@ function login() {
   firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
     .then(() => {
       console.log("Usuario con login exitoso");
+      
     })
     .catch((error) => {
       console.log("Error de firebase" + error.code);
       console.log("Error de firebase, mensaje" + error.message);
     });
 }
-//Aquí va la función de cerrar sesión
+// *****Aquí va la función de cerrar sesión****
 function logout() {
   firebase.auth().signOut()
     .then(() => {
+      const logOutBtn = document.getElementById('logOutButton');
+      logOutBtn.addEventListener('click',() => {
+        landingPage.style.display = "block";
+        navBar.style.display = "none";
+        loggedOut.style.display = "none";
+      });
+
       console.log("Vuelve pronto, te extrañaremos");
     })
     .catch();
 }
-//Aquí va la función de iniciar sesión con Facebook
+// Aquí va la función de iniciar sesión con Facebook
 function loginFacebook() {
   const provider = new firebase.auth.FacebookAuthProvider();
   //provider.addScope("user_birthday"); tienen que pedirle permiso a facebook
@@ -89,12 +97,14 @@ function loginFacebook() {
       console.log("Error de firebase, mensaje" + error.message);
     });
 }
-//funcion login google
+// Función login con Google
 function loginGoogle() {
 
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithRedirect(provider);
   firebase.auth().getRedirectResult().then(function (result) {
+    
+    //document.getElementById("dataUser").innerHTML = <img src='"+result.userURL+"' />;
     // This gives you a Google Access Token. You can use it to access the Google API.
     //let token = result.credential.accessToken;
     // The signed-in user info.
@@ -203,7 +213,7 @@ userName.addEventListener('keyup', () =>{
 //validar que la contraseña tenga minimo 6 caracteres
 password2.addEventListener('keyup', () =>{
   if(password2.value.length < 6) {
-    errorMsg.innerHTML = "La contraseña debe tener minimo 6 caracteres";
+    errorMsg.innerHTML = "La contraseña debe tener como mínimo 6 caracteres";
   } else if(password2.value.length >= 6) {
     errorMsg.innerHTML = " ";
   }
@@ -214,7 +224,7 @@ confirmPassword.addEventListener('keyup', () => {
   if(password.value === confirmPassword.value){
     errorConfirmPassword.innerHTML = " ";
   } else {
-    errorConfirmPassword.innerHTML = "Porfavor revisa la contraseña debe coincidir";
+    errorConfirmPassword.innerHTML = "Porfavor revisa, ambas contraseñas deben coincidir";
   }
 })
 
@@ -229,7 +239,7 @@ function validateAgree(){
   }
 }
 
-//guardar estos valores en un usuario con local storage (con el boton recordar)
+// Guardando estos valores en un usuario con local storage (con el boton recordar)
 rememberMe.addEventListener('change', saveLocalUser, false);  
 
   function saveLocalUser(){
@@ -242,31 +252,28 @@ rememberMe.addEventListener('change', saveLocalUser, false);
     }
   }
 			
-//llevarme al muro (Home page) al presionar botón registrar 
+//llevarme al muro (Home page) al presionar botón Registrar 
 createAcountBtn.addEventListener('click', () => { 
     const emailVal = email.value; 
     const passwordVal = password.value; 
-    //crear esta cuenta en firebase (con el boton crear cuenta)
+    // Crear esta cuenta en Firebase (con el botón Registrar)
     firebase.auth().createUserWithEmailAndPassword(emailVal, passwordVal)
     .then(() => {
-    //cambiar de seccion
-    const registro = document.getElementById('');
-    registrar.addEventListener('click', () => {
-      loggedOut.style.display ="none";
-      registerPage.style.display ="block";
-    });
-    const hideSection = document.getElementById('registerPage');
-    const showSection = document.getElementById('navBar');
-    const showSection = document.getElementById('loggedHome');
-
-    hideSection.style.display = "none";
-    showSection.style.display = "block";
+    // ********Cambiar de sección**********
+    const hideSection = document.getElementById('registerPage'); // Esconder página de registro
+    const showSection1 = document.getElementById('navBar'); // Mostrar barra de navegación
+    const showSection2 = document.getElementById('loggedHome'); // Mostrar muro
     
-    //crear coleccion de usuarios
+    hideSection.style.display = "none";
+    showSection1.style.display = "block";
+    showSection2.style.display = "block";
+    });
+        
+    // Creando colección de usuarios
     const user = firebase.auth().currentUser;
 
     db.collection("users").add({
-      nombre:  userName.value,
+      nombre: userName.value,
       id: user.uid,
       email: user.email,
       edad : userAge.value
@@ -279,8 +286,8 @@ createAcountBtn.addEventListener('click', () => {
     });
     }) 
     .catch((error) => {
-      console.log('fallo el registro', error);
+      console.log('falló el registro', error);
     })
-})
+
 
     

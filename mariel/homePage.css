@@ -1,73 +1,26 @@
-body{
+body {
   background-color: #A7D9A2;
 }
 
-/*Estilo landingPage*/
+/*Estilo login (Daniela)*/
 
-#landingPage{
+#logInPage {
   display: block;
-}
-
-#logoSiembramigos{
-  background-color: #F2B84B;
-  text-align: center;
-  font-family: roboto;
-  display: block;
-}
-
-header{
-  padding: 20px;
-}
-
-p{
-  color: #0D5A3A;
-}
-
-h4{
-  color: #132936;
-}
-
-#paragraph{
-  text-align:center;
-  padding: 10%;
-}
-
-#boton{
-  text-align: center;
-}
-
-#btn-entrar {
-  margin-bottom: 5%;
-  background-color: #F2B84B;
-  color: red;
-  font-weight: bold;
-  border: none;
-  padding: 15px;
-}
-
-/*Estilo página LogIn*/
-#loggedOut {
-  display: none;
 }
 
 h1, h2, h4 {
   text-align: center;
 }
-
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
+ 
 #logo {
   background-color: #59A686;
 }
 
 #loggedOut {
-  margin-top: 4em;
+  margin-top: 5em;
 }
 
-.btn {
+#loginFacebookBtn, #loginGoogleBtn {
   border-radius: 50%;
   border-color: transparent;
   border-width: 0px;
@@ -84,8 +37,8 @@ p {
 .btnBlueEnter {
   background: #00BCD4;
   border-radius: 2px;
-  margin-top: 1em;
-  margin-bottom: 2em;
+  margin-top: 2em;
+  margin-bottom: 3em;
   color: beige;
 }
 
@@ -99,7 +52,7 @@ p {
 }
   
 .input_container {
-  margin-bottom: 0;
+  margin-bottom: 1em;
 }
 
 #div_btn {
@@ -108,18 +61,17 @@ p {
 }
 
 #register_container {
-  margin-top: 2em;
-  margin-bottom: 1em;
+margin-top: 4em;
 }
  
 .btn_container {
   margin-top: 1em;
 }
 
-/*Estilo página registar*/ 
-
-#registerPage {
+/*Estilo Registro (Mariel)*/
+#registerPage{
   display: none;
+  padding: 0%;
 }
 
 header{
@@ -127,17 +79,10 @@ header{
   height: 76px;
 }
 
-body{
-  background-color: #A7D9A2;
-}
-#register_section{
-  display: block;
-  padding: 0%;
-  
-}
 .col-12{
   background-color: #A7D9A2;
 }
+
 #form_section{
   margin: auto;
   text-align: center;
@@ -151,6 +96,9 @@ body{
   font-size: large;
 }
 
+#inputs_div{
+
+}
 .nombre_input{
   text-align: left;
   margin-bottom: 0%;
@@ -170,7 +118,6 @@ body{
 #validation_div{
   text-align: center;
   padding: 0%;
- 
 }
 
 .error{
@@ -178,13 +125,12 @@ body{
   font-size: x-small;
 }
 
-#rememeber_check {
+#rememeber_check{
   display: inline; 
   margin-top: auto;
   margin-left: 5%;
   margin-bottom: auto;
 }
-
 #terms_check{
   display: inline;
   margin-top: auto;
@@ -218,45 +164,8 @@ body{
   margin-top: 9%;
 }
 
-/*Estilo navBar*/
-#navBar {
-  display: none;
-  background-color: #F2B84B;
-}
+/*Muro (Barbara)*/
 
-/*Estilo página Muro (homePage)*/ 
-#loggedHome {
-  display: none; 
+#homePage {
+  display: block;
 }
-
-.images-icon {
-  margin: 0%;
-}
-
-#user-post-container {
-border-radius: 1em; 
-}
-
-#postArea {
-  border-radius: 1em;  
-}
-
-i {
-  color:  #00BCD4;
-}
-
-#post_container {
-  background-color: #FFFFFF;
-}
-.inputuser {
-  display: inline;
-}
-
-#btn-images {
-  background-color: #FFFFFF;
-}
-.btn-img, select {
-  background-color: #FFFFFF;
-  margin: 0%;
-}
-
