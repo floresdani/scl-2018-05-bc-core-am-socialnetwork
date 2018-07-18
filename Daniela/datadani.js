@@ -5,6 +5,14 @@ window.onload = () => {
       loggedOut.style.display = "none";
       loggedIn.style.display = "block";
       console.log("User > " + JSON.stringify(user));
+
+    //obtener perfil del usuario
+    let displayName = user.displayName;
+    let userPhoto = user.photoURL;
+
+    userName.textContent = displayName;
+    userImage.style.backgroundImage = 'url('+userPhoto+')';
+
     } else {
       //No estamos logueados
       loggedOut.style.display = "block";
@@ -54,6 +62,8 @@ window.onload = () => {
         `;
     });
 
+  
+
   //Un valor de marcador de posición para completar automáticamente la marca de tiempo actual (tiempo transcurrido desde la época de Unix, en milisegundos) según lo determinen los servidores de Firebase.
   let sessionsRef = firebase.database().ref("sessions");
   sessionsRef.push({
@@ -63,6 +73,10 @@ window.onload = () => {
 
 };
 //===============================LOGIN========================================
+
+let userName = document.getElementById('user-name');
+let userImage = document.getElementById('user-pic');
+
 //Aquí va la función de iniciar sesión con email
 function login() {
   const emailValue = email.value;
@@ -157,4 +171,5 @@ function sendChat() {
     text: chatAreaText
   });
 }
+
 

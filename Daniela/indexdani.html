@@ -106,7 +106,10 @@
         <!-- Aquí comienza el ingreso de posts-->
         <div id="user-post-container" class="row">
           <div class="col-1">
-            <img src="img/usuario.png">
+            <img id="user-pic" alt="avatar-user">
+            <p id="user-name">
+              <!-- aquí va nombre de usuario logeado-->
+            </p>
           </div>
           <div class="col-11">
             <textarea class="txt" id="postArea" placeholder="¿Qué quieres publicar?"></textarea>
@@ -194,20 +197,21 @@
         </div>
         <!-- Aquí comienza contenedor derecho con los mensanjes de los usuarios amigos -->
         <div class="col-md-10">
-<div id="boxChat">
-  <div id="chatMessages">
-    <div id="nameChatFriend">
-      <h4>Nombre</h4>
-      <div id="addChatUser">
-        <!-- Aquí van los mensajes enviados del chat -->
-      </div>
-    </div>
-  </div>
-  <textarea id="textAreaChat" cols="80" rows="4" placeholder="Ingresa un mensaje"></textarea>
-</div>
-<div id="boxBtnChat">
-  <button id="btnChat" onclick="sendChat()">Enviar</button>
-</div>
+          <div id="boxChat">
+            <div id="chatMessages">
+              <div id="nameChatFriend">
+                <img id="" src="" alt="">
+                <span id=""></span>
+                <div id="addChatUser">
+                  <!-- Aquí van los mensajes enviados del chat -->
+                </div>
+              </div>
+            </div>
+            <textarea id="textAreaChat" cols="80" rows="4" placeholder="Ingresa un mensaje"></textarea>
+          </div>
+          <div id="boxBtnChat">
+            <button id="btnChat" onclick="sendChat()">Enviar</button>
+          </div>
           <!-- Aquí comienza contenedor derecho con los mensanjes de los usuarios amigos -->
         </div>
 

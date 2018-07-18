@@ -123,7 +123,11 @@ i {
   }
 
 .friends {
-  fill: #FFFFFF;
-  border-radius: 5em;
+  background-color: #FFFFFF;
+  border-radius: 1em;
   text-align: center;
+}
+
+#user-pic {
+  border-radius: 50%;
 }
