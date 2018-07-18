@@ -47,7 +47,7 @@ function login() {
 function logout() {
   firebase.auth().signOut()
     .then(() => {
-      console.log("Vuelve pronto, te extrañaremos");
+      alert("Vuelve pronto, te extrañaremos");
     })
     .catch();
 }

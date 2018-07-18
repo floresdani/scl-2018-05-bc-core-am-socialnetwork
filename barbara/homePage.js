@@ -32,6 +32,7 @@ window.onload = () => {
       
       // Imprimiendo imagen de perfil en el muro
       homePageImageUser.style.backgroundImage = "url("+userPhoto+")";
+   
 
       // Imprimiendo nombre y foto en perfil
       profileName.textContent = displayName;
@@ -70,6 +71,8 @@ window.onload = () => {
       addPostUser.innerHTML += `
             <div>${newMessage.val().creatorName}</div>
             <div>${newMessage.val().text}</div>
+            <div>${newMessage.val().timestamp}</div>
+          
         `;
     });
 };
@@ -204,7 +207,8 @@ function sendMessage() {
   firebase.database().ref(`messages/${newMessageKey}`).set({
     creator: currentUser.uid,
     creatorName: currentUser.displayName,
-    text: PostAreaText
+    text: PostAreaText,
+    timestamp: currentUser.timestamp
   });
 }
 
