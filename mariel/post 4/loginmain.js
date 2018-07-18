@@ -151,7 +151,7 @@ function savePost(){
       <div class = "input_text_post">             
       <div>${doc.data().nombre} </div> 
       <div> : ${doc.data().texto}</div>
-      <button class = "btn-post"><i class="fas fa-heart"></i></button>
+      <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
       <button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button>
       <button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button>
       </div>
@@ -196,6 +196,20 @@ function editarPost(id, texto){
       });
   }
   
+}
+
+// Función contador de LIKES
+let i = 0;
+function counterLikes() {
+ // const btnLike = document.getElementById('btnLikes');
+  i = i + 1;
+  const showLikes = document.getElementById('likes-counter');
+  showLikes.innerHTML = i; 
+  console.log(showLikes)
+ // showLikes.value = i;
+ if(i > 1 || i == 2) {
+document.getElementById('btnLikes').disabled = true;
+}
 }
 
 //========================================HOME========================================
