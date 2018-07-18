@@ -75,11 +75,11 @@
           </div>
           <div class="input_container">
             <label for="exampleInputEmail1">Email</label>
-            <input id="email" type="email" class="form-control">
+            <input id="emailLogin" type="email" class="form-control">
           </div>
           <div class="input_container">
             <label for="exampleInputPassword1">Contraseña</label>
-            <input id="password" type="password" class="form-control" id="exampleInputPassword1">
+            <input id="passwordLogin" type="password" class="form-control" id="exampleInputPassword1">
           </div>
           <div id="containerBtn">
             <button id="loginBtn" class="btnBlueEnter" onclick="login()" type="button" value="LOGIN">Ingresar</button>
@@ -196,7 +196,7 @@
        <!--Inicio muro-->              
           <section id= "loggedHome">
               <div id="user-post-container" class="row">
-                <div class="col-1">
+                <div id="homePageImageUser" class="col-1">
                   <img src="img/usuario.png">
                 </div>
                 <div class="col-11">
@@ -245,8 +245,132 @@
         </section>
 
         <!-- Inicio Perfil-->
+        <section id="loggedProfile">
+        <h3>Perfil de usuario</h3>
+        <div>
+          <img id="userImage" src="img/usuario.png" alt="Imagen usuario">
+          <span id="userName"></span>
+        </div>
 
-        <div id="dataUser"></div>
+        <div class="row">
+          <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+              <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Datos personales</a>
+              <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Hobbies</a>
+              <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Fotos</a>
+              <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Amigos</a>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="list-profile" role="tabpanel" aria-labelledby="list-home-list">Sobre mi...</div>
+              <div>
+                <strong><h4>Datos de contacto</h4><strong>
+                  <div class="contactData">
+                    <h6>e-mail:</h6>
+                   <div id="emailProfile">
+                  </div>
+                  </div>
+
+                  <div class="contactData">
+                  <h6>Teléfono/Celular:</h6>
+                  <div id="phone">                    
+                  </div>
+                  </div>
+
+                  <div class="contactData">
+                    <h6>Dirección:</h6>
+                    <div id="adress">               
+                    </div>
+                  </div>
+
+                  <div class="contactData">
+                    <h6>Edad</h6>
+                  <div id="age"></div>
+                  </div>
+                </div>
+             
+              <div class="tab-pane fade" id="list-hobbies" role="tabpanel" aria-labelledby="list-profile-list">Mis pasatiempos favoritos son...</div>
+
+
+              <div class="tab-pane fade" id="list-photos" role="tabpanel" aria-labelledby="list-messages-list">Mis fotos favoritas</div>
+
+
+              <div class="tab-pane fade" id="list-extraData" role="tabpanel" aria-labelledby="list-settings-list">Datos extra...</div>
+              <div id="age"></div>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div id="dataUser">
+        </div>
+
+        </section>
+
+        
+    <!-- ========================= Comienzo de página CHAT ===================-->
+    <section id="loggedChat">
+      <div id="sidenav" class="row">
+        <!-- Aquí comienza contenedor lateral izquierdo -->
+        <div class="col-md-2">
+          <nav>
+            <div class="friends">
+              <img src="img/avatar.png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (1).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (2).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (3).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (4).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (5).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+            <div class="friends">
+              <img src="img/avatar (6).png" alt="Usuario">
+              <p>Nombre</p>
+            </div>
+          </nav>
+          <!-- Aquí termina contenedor lateral izquierdo con los usuarios amigos -->
+        </div>
+        <!-- Aquí comienza contenedor derecho con los mensanjes de los usuarios amigos -->
+        <div class="col-md-10">
+          <div id="boxChat">
+            <div id="chatMessages">
+              <div id="nameChatFriend">
+                <img id="" src="" alt="">
+                <span id=""></span>
+                <div id="addChatUser">
+                  <!-- Aquí van los mensajes enviados del chat -->
+                </div>
+              </div>
+            </div>
+            <textarea id="textAreaChat" cols="80" rows="4" placeholder="Ingresa un mensaje"></textarea>
+          </div>
+          <div id="boxBtnChat">
+            <button id="btnChat" onclick="sendChat()">Enviar</button>
+          </div>
+          <!-- Aquí comienza contenedor derecho con los mensanjes de los usuarios amigos -->
+        </div>
+
+
+      </div>
+      <!-- ========================= Termino de página CHAT ===================-->
+    </section>
   
 
 <!--Link Bootstrap-->

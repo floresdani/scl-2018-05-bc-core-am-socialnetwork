@@ -260,3 +260,22 @@ i {
   margin: 0%;
 }
 
+/* Estilo Perfil
+
+#loggedProfile{
+  display: none;
+}*/
+
+.contactData {
+  margin: 10px;
+}
+
+img {
+  z-index: 0;
+}
+
+/* Estilo Chat*/
+
+#loggedChat {
+  display: none;
+}

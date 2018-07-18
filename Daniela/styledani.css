@@ -110,8 +110,24 @@ i {
 
 #btn-images {
   background-color: #FFFFFF;
+  display: block;
 }
 .btn-img, select {
   background-color: #FFFFFF;
   margin: 0%;
+}
+
+/*CHAT*/
+.sidenav {
+  border: solid #F2B84B;
+  }
+
+.friends {
+  background-color: #FFFFFF;
+  border-radius: 1em;
+  text-align: center;
+}
+
+#user-pic {
+  border-radius: 50%;
 }

@@ -1,5 +1,7 @@
 window.onload = () => {
   
+  inicializarFirebase();
+  
   // Llevarme a la ventana de login al presionar botón Entrar 
   const entrar = document.getElementById('btn-entrar');
   entrar.addEventListener('click', () => {
@@ -15,20 +17,40 @@ window.onload = () => {
   });
 
 //--------Daniela--------
+  function inicializarFirebase() {
   firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      //Si estamos logueados
+    if (user) { //Si estamos logueados
+
       loggedOut.style.display = "none";
       navBar.style.display = "block";
       loggedHome.style.display = "block";
+      
+      const displayName = user.displayName;
+      const userPhoto = user.photoURL;
+      const phoneNumber = user.phoneNumber;
+      const email = user.email; 
+      
+      // Imprimiendo imagen de perfil en el muro
+      homePageImageUser.style.backgroundImage = "url("+userPhoto+")";
+
+      // Imprimiendo nombre y foto en perfil
+      profileName.textContent = displayName;
+      profileImage.style.backgroundImage = "url("+userPhoto+")";
+
+      emailProfile.textContent = email;
+      phone.textContent = phoneNumber;
+
       console.log("User > " + JSON.stringify(user));
+
     } else {
       //No estamos logueados
+      landingPage.style.display = "block";
       navBar.style.display = "none";
       loggedHome.style.display = "none";
-    }
 
+    }
   });
+}
 
   firebase.database().ref('messages')
     .limitToLast(2) // Filtro para no obtener todos los mensajes
@@ -52,10 +74,10 @@ window.onload = () => {
     });
 };
 //===============================LOGIN========================================
-//Aquí va la función de iniciar sesión con email
+//Aquí va la función de iniciar sesión con email y contraseña
 function login() {
-  const emailValue = email.value;
-  const passwordValue = password.value;
+  const emailValue = emailLogin.value;
+  const passwordValue = passwordLogin.value;
   firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
     .then(() => {
       console.log("Usuario con login exitoso");
@@ -98,13 +120,18 @@ function loginFacebook() {
     });
 }
 // Función login con Google
+const profileName = document.getElementById('userName');
+const profileImage = document.getElementById('userImage');
+const homePageImageUser = document.getElementById('homePageImageUser');
+const emailProfile = document.getElementById('emailProfile');
+const phone = document.getElementById('phone');
+
 function loginGoogle() {
 
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithRedirect(provider);
   firebase.auth().getRedirectResult().then(function (result) {
     
-    //document.getElementById("dataUser").innerHTML = <img src='"+result.userURL+"' />;
     // This gives you a Google Access Token. You can use it to access the Google API.
     //let token = result.credential.accessToken;
     // The signed-in user info.
@@ -120,6 +147,7 @@ function loginGoogle() {
     let credential = error.credential;
 
   });
+
 }
 //========================================HOME========================================
 // Homepage
@@ -177,6 +205,26 @@ function sendMessage() {
     creator: currentUser.uid,
     creatorName: currentUser.displayName,
     text: PostAreaText
+  });
+}
+
+//======================================== CHAT ====================================
+
+// Función enviar chat
+function sendChat() {
+  const currentUser = firebase.auth().currentUser;
+  const chatAreaText = textAreaChat.value;
+  // Validar que no este vacío el chat
+  if (chatAreaText.length === 0 || chatAreaText == null) {
+    return alert('Debes ingresar un mensaje')
+  }
+  // Para tener una nueva llave en la colección messages del chat
+  const newChatKey = firebase.database().ref().child('chats').push().key;
+
+  firebase.database().ref(`chats/${newChatKey}`).set({
+    creator: currentUser.uid,
+    creatorName: currentUser.displayName,
+    text: chatAreaText
   });
 }
 
@@ -285,9 +333,6 @@ createAcountBtn.addEventListener('click', () => {
       console.error("Error adding document: ", error);
     });
     }) 
-    .catch((error) => {
-      console.log('falló el registro', error);
-    })
-
+   
 
     
