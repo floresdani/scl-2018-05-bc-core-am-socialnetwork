@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <!--Link Bootstrap-->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- Link iconos -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+    crossorigin="anonymous">
+    <!--Link css local-->
   <link rel="stylesheet" href="homePage.css">
 </head>
 
@@ -196,24 +201,30 @@
        <!--Inicio muro-->              
           <section id= "loggedHome">
               <div id="user-post-container" class="row">
-                <div id="homePageImageUser" class="col-1">
-                  <img src="img/usuario.png">
-                </div>
-                <div class="col-11">
-                  <textarea class="txt" id="postArea" placeholder="¿Qué quieres publicar?"></textarea>
-                </div>
-              </div>
-      
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm">
-                    <div>
-                      <div id="btn-images">
-                        <button class="btn-img" type="button">
-                          <img class="images-icon" src="img/picture.png">
-                          <i class="fas fa-plus"></i>
-                        </button>
-      
+           <!--Aca comienza la tarjeta del nuevo post-->
+        <div id="new-post-container" class = "container col-xs-8 col-sm-12 col-md-8 col-lg-8">
+            <div> <!--input texto-->
+              <textarea class="txt col-12 input_text_post" id="postArea" placeholder="¿Qué quieres publicar?"></textarea>
+            </div> <!-- CIERRE input texto-->
+          
+           <hr />
+              <div class="row" id="newPostFunctions_container"><!--Iconos y boton debajo del texarea-->
+                  
+                     <!--foto usuario-->
+                     <div id="homePageImageUser" class="post-btn">
+                      <img id="userPicture_newPost" src="img/usuario.png">
+                      </div>
+
+                      <!--añadir imagen-->
+                      <div class="post-btn">
+                      <button  id="btn-addImages" type="button">
+                        <img id="images-icon" src="img/picture.png">
+                        <i id="plus-icon" class="fas fa-plus"></i>
+                      </button>
+                      </div>
+                   
+                       <!--SELECTOR DE TAG-->
+                        <div class="post-btn">
                         <div id="tags">
                           <form>
                             <select>
@@ -229,19 +240,18 @@
                           </form>
                         </div>
                       </div>
-                      <div id="btn-post">
-                        <button id="btnSendPost" type="button" class="btnBlue" onclick="sendMessage()">Publicar</button>
                       </div>
+                      <!--Botón postear-->
+                    <div id="btn-post" class="post-btn">
+                      <button id="btn-post" type="button" class="btnBlue">Publicar</button>
+                    </div>
                     </div>
                     <!-- Aquí comienza el contenedor de los post ingresados -->
-                    <div id="postUserContainer">
-                      <div id="addPostUser">
-                        <!-- Aquí están los post de los usuarios -->
-                      </div>
+                    <div id="addPostUser">
                     </div>
-                  </div>
-                </div>
-              </div>
+                    <div id="savedPost">
+                    </div>
+                    </div>
         </section>
 
         <!-- Inicio Perfil-->
