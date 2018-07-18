@@ -8,65 +8,17 @@ window.onload = () => {
     if (user) {
       //Si estamos logueados
       loggedOut.style.display = "none";
-      loggedIn.style.display = "block";
-    
-      //guardar valores del DOM 
-      const postbtn = document.getElementById("btn-post");
-      const postArea = document.getElementById("postArea");
+      loggedIn.style.display = "block";   
       
-      //Mostrar post anteriores del usuario 
-      savePost()
-      //evento del boton postear
-      postbtn.addEventListener('click', () =>{ 
-        validatePost();
-        const currentUser = firebase.auth().currentUser;
-        const postAreaText = postArea.value;
-        //llamando a la coleccion usuarios desde database 
-        //escuchando el evento onSnapshot, cada vez que se crea un post
-        db.collection("users").onSnapshot((querySnapshot) => {
-          
-          querySnapshot.forEach((doc) => {
-            
-            let userName = doc.data().nombre;
-            //añadiendo una nueva coleccion
-            db.collection("usersPost").add({
-              nombre : userName,
-              usuario:  currentUser.uid,
-              texto : postAreaText
-            }) 
-            let  showPostArea = document.getElementById("addPostUser");
-            //llamando a la nueva coleccion y refrescando el input 
-              db.collection("usersPost").onSnapshot((querySnapshot) => {
-                showPostArea.innerHTML = " ";
-                querySnapshot.forEach((doc) => {
-                   postArea.value = " "; 
-                  //imprimiendo en html el post 
-                  showPostArea.innerHTML +=  `
-                  <div class = "input_text_post">             
-                  <div>${doc.data().nombre} </div> 
-                  <div> : ${doc.data().texto}</div>
-                  <button class = "btn-post"><i class="fas fa-heart"></i></button>
-                  <button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button>
-                  <button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button>
-                  </div>
-                  `;
-                  
-
-                });
-            })
-          })
-      
-      })  
-
-    }) 
-
+       //Mostrar post anteriores del usuario 
+      savePost();
 
     } else {
       //No estamos logueados
       loggedOut.style.display = "block";
       loggedIn.style.display = "none";
     }
-  });
+  })}
 
 
 //===============================LOGIN========================================
@@ -130,7 +82,9 @@ function loginGoogle() {
   });
 }
 
-}
+
+//========================================HOME========================================
+
 //validar que no este vacio para postear
 function validatePost(){
   const postValue = document.getElementById("postArea").value;
@@ -138,6 +92,84 @@ function validatePost(){
     prompt("texto vacio");
   }
 }
+//variables globales 
+let userName;
+let textSaved; 
+
+
+//evento del boton postear
+ //guardar valores del DOM 
+ const postbtn = document.getElementById("btn-post");
+ const postArea = document.getElementById("postArea");
+postbtn.addEventListener('click', () =>{ 
+  validatePost();
+  const currentUser = firebase.auth().currentUser;
+  const postAreaText = postArea.value;
+  //creando colleccion de post 
+  createCollection()
+      let  showPostArea = document.getElementById("addPostUser");
+      //llamando a la nueva coleccion y refrescando el input 
+        db.collection("usersPost").onSnapshot((querySnapshot) => {
+          showPostArea.innerHTML = " ";               
+       })
+       showNewPost();
+    })
+
+//funcion que guarda el nombre del usuario
+db.collection("users").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  userName = doc.data().nombre;
+  console.log(userName);
+}) 
+})
+//funcion que guarda el texto
+db.collection("usersPost").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  textSaved = doc.data().texto;
+  console.log(userName);
+}) 
+
+})
+//escuchando el evento onSnapshot, cada vez que se crea un post
+function createCollection(){ 
+  const postArea = document.getElementById("postArea");
+
+    const currentUser = firebase.auth().currentUser; 
+    const postAreaText = postArea.value;
+    db.collection("usersPost").add({
+    nombre : userName,
+    usuario:  currentUser.uid,
+    texto : postAreaText
+
+  }) 
+  .then(function(docRef) {
+    //console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      //console.error("Error adding document: ", error);
+  });  
+}
+
+//funcion que imprime el resultado  
+function showNewPost(){
+  const showPostArea = document.getElementById("addPostUser");     
+      
+       //imprimiendo en html el post 
+      showPostArea.innerHTML +=  `
+      <div class = "input_text_post">             
+      <div>${userName} </div> 
+      <div> : ${textSaved}</div>
+      <button class = "btn-post"><i class="fas fa-heart"></i></button>
+      <button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button>
+      <button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button>
+      </div>
+      `;
+        console.log(`${doc.id} => ${doc.data()}`);
+     
+
+
+  
+};
 
 //funcion para dejar post guardados en la pagina 
 function savePost(){
@@ -168,7 +200,7 @@ function eliminarPost(id){
    }).catch(function(error) {
     console.error("Error removing document: ", error);
 });
-}
+};
 
 //funcion de editar post
 
@@ -196,26 +228,6 @@ function editarPost(id, texto){
       });
   }
   
+
 }
 
-//========================================HOME========================================
-// Homepage
-
-/* function sendMessage(){
-  const currentUser = firebase.auth().currentUser;
-  const PostAreaText = postArea.value;
-
-  //Para tener una nueva llave en la colección messages
-  const newMessageKey = firebase.database().ref().child('messages').push().key;
-
-  firebase.database().ref(`messages/${newMessageKey}`).set({
-      creator : currentUser.uid,
-      creatorName : currentUser.displayName,
-      text : PostAreaText
-  });
-} */ 
-
-//Función para eliminar post
-//function removePost() { 
-//  .parentNode.removeChild();
-//}
