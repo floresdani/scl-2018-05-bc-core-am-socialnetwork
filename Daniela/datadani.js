@@ -5,6 +5,14 @@ window.onload = () => {
       loggedOut.style.display = "none";
       loggedIn.style.display = "block";
       console.log("User > " + JSON.stringify(user));
+
+      //obtener perfil del usuario
+      let displayName = user.displayName;
+      let userPhoto = user.photoURL;
+
+      userName.textContent = displayName;
+      userImage.style.backgroundImage = 'url('+userPhoto+')';
+
     } else {
       //No estamos logueados
       loggedOut.style.display = "block";
@@ -32,7 +40,7 @@ window.onload = () => {
             <div>${newMessage.val().text}</div>
         `;
     });
-  //=================CHAT=========
+  //=======================CHAT=========================
   firebase.database().ref('chats')
     .limitToLast(2) // Filtro para no obtener todos los mensajes
     .once('value')
@@ -40,13 +48,13 @@ window.onload = () => {
       console.log("Chats" + JSON.stringify(chats));
     })
     .catch(() => {
-      console.log(errorMessage);
+
     });
 
-  //Acá comenzamos a escuchar por nuevos post usando el evento
+  //Acá comenzamos a escuchar nuevos mensajes de CHAT  usando el evento
   //on child_added
   firebase.database().ref('chats')
-    .limitToLast(1)//cuántos post aparecerán antes de ser borrados
+    .limitToLast(1)//cuántos CHAT aparecerán antes de ser borrados
     .on('child_added', (newChat) => {
       addChatUser.innerHTML += `
             <div>${newChat.val().creatorName}</div>
@@ -59,10 +67,13 @@ window.onload = () => {
   sessionsRef.push({
     startedAt: firebase.database.ServerValue.TIMESTAMP
   });
-  //EVENTO DOM CLICK EN CHAT
-
+  // Fin de window.onload
 };
+
 //===============================LOGIN========================================
+let userName = document.getElementById('user-name');
+let userImage = document.getElementById('user-pic');
+
 //Aquí va la función de iniciar sesión con email
 function login() {
   const emailValue = email.value;
@@ -76,7 +87,7 @@ function login() {
       console.log("Error de firebase, mensaje" + error.message);
     });
 }
-//Aquí va la función de cerrar sesión
+// Aquí va la función de cerrar sesión
 function logout() {
   firebase.auth().signOut()
     .then(() => {
@@ -84,7 +95,7 @@ function logout() {
     })
     .catch();
 }
-//Aquí va la función de iniciar sesión con Facebook
+// Aquí va la función de iniciar sesión con Facebook
 function loginFacebook() {
   const provider = new firebase.auth.FacebookAuthProvider();
   //provider.addScope("user_birthday"); tienen que pedirle permiso a facebook
@@ -100,7 +111,7 @@ function loginFacebook() {
       console.log("Error de firebase, mensaje" + error.message);
     });
 }
-//funcion login google
+// Función Login google
 function loginGoogle() {
 
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -157,4 +168,5 @@ function sendChat() {
     text: chatAreaText
   });
 }
+
 
