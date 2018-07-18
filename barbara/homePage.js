@@ -1,49 +1,109 @@
-// Daniela (Login)
 window.onload = () => {
+  
+  inicializarFirebase();
+  
+  // Llevarme a la ventana de login al presionar botón Entrar 
+  const entrar = document.getElementById('btn-entrar');
+  entrar.addEventListener('click', () => {
+   loggedOut.style.display ="block";
+   landingPage.style.display ="none";
+  });
 
+  // Llevarme a la ventana de crear cuenta al presionar botón Registro
+  const registro = document.getElementById('registerBtn');
+  registro.addEventListener('click', () => {
+    loggedOut.style.display ="none";
+    registerPage.style.display ="block";
+  });
+
+//--------Daniela--------
+  function inicializarFirebase() {
   firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      //Si estamos logueados
+    if (user) { //Si estamos logueados
+
       loggedOut.style.display = "none";
-      loggedIn.style.display = "block";
+      navBar.style.display = "block";
+      loggedHome.style.display = "block";
+      
+      const displayName = user.displayName;
+      const userPhoto = user.photoURL;
+      const phoneNumber = user.phoneNumber;
+      const email = user.email; 
+      
+      // Imprimiendo imagen de perfil en el muro
+      homePageImageUser.style.backgroundImage = "url("+userPhoto+")";
+
+      // Imprimiendo nombre y foto en perfil
+      profileName.textContent = displayName;
+      profileImage.style.backgroundImage = "url("+userPhoto+")";
+
+      emailProfile.textContent = email;
+      phone.textContent = phoneNumber;
+
       console.log("User > " + JSON.stringify(user));
+
     } else {
       //No estamos logueados
-      loggedOut.style.display = "block";
-      loggedIn.style.display = "none";
+      landingPage.style.display = "block";
+      navBar.style.display = "none";
+      loggedHome.style.display = "none";
 
-      firebase.database().ref('posts')
-      .on('child_added',(newPost) => { // suscribiendo a la colección de posts
-      postUserContainer.innerHTML +=
-          <p>Nombre : ${newPost.val().createName}</p>
-          <p>${newPost.val().text}</p>
-    
+    }
+  });
+}
+
+  firebase.database().ref('messages')
+    .limitToLast(2) // Filtro para no obtener todos los mensajes
+    .once('value')
+    .then((messages) => {
+      console.log("Posts" + JSON.stringify(messages));
     })
-    
-    };
-    
-//Aquí va la función de iniciar sesión con email
+    .catch(() => {
+
+    });
+
+  //Acá comenzamos a escuchar por nuevos mensajes usando el evento
+  //on child_added
+  firebase.database().ref('messages')
+    .limitToLast(1)//cuántos post aparecerán antes de ser borrados
+    .on('child_added', (newMessage) => {
+      addPostUser.innerHTML += `
+            <div>${newMessage.val().creatorName}</div>
+            <div>${newMessage.val().text}</div>
+        `;
+    });
+};
+//===============================LOGIN========================================
+//Aquí va la función de iniciar sesión con email y contraseña
 function login() {
-  const emailValue = email.value;
-  const passwordValue = password.value;
+  const emailValue = emailLogin.value;
+  const passwordValue = passwordLogin.value;
   firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
     .then(() => {
       console.log("Usuario con login exitoso");
+      
     })
     .catch((error) => {
       console.log("Error de firebase" + error.code);
       console.log("Error de firebase, mensaje" + error.message);
     });
 }
-//Aquí va la función de cerrar sesión
+// *****Aquí va la función de cerrar sesión****
 function logout() {
   firebase.auth().signOut()
     .then(() => {
+      const logOutBtn = document.getElementById('logOutButton');
+      logOutBtn.addEventListener('click',() => {
+        landingPage.style.display = "block";
+        navBar.style.display = "none";
+        loggedOut.style.display = "none";
+      });
+
       console.log("Vuelve pronto, te extrañaremos");
     })
     .catch();
 }
-//Aquí va la función de iniciar sesión con Facebook
+// Aquí va la función de iniciar sesión con Facebook
 function loginFacebook() {
   const provider = new firebase.auth.FacebookAuthProvider();
   //provider.addScope("user_birthday"); tienen que pedirle permiso a facebook
@@ -55,17 +115,23 @@ function loginFacebook() {
       console.log("Login con facebook");
     })
     .catch((error) => {
-      console.log("Error de firebase > " + error.code);
-      console.log("Error de firebase, mensaje > " + error.message);
+      console.log("Error de firebase" + error.code);
+      console.log("Error de firebase, mensaje" + error.message);
     });
 }
-//funcion login google
+// Función login con Google
+const profileName = document.getElementById('userName');
+const profileImage = document.getElementById('userImage');
+const homePageImageUser = document.getElementById('homePageImageUser');
+const emailProfile = document.getElementById('emailProfile');
+const phone = document.getElementById('phone');
 
 function loginGoogle() {
 
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithRedirect(provider);
   firebase.auth().getRedirectResult().then(function (result) {
+    
     // This gives you a Google Access Token. You can use it to access the Google API.
     //let token = result.credential.accessToken;
     // The signed-in user info.
@@ -81,23 +147,94 @@ function loginGoogle() {
     let credential = error.credential;
 
   });
+
+}
+//========================================HOME========================================
+// Homepage
+const btnPost = document.getElementById('btnSendPost');
+btnPost.addEventListener('click', () => {
+  //Limpiar textarea
+  document.getElementById('postArea').value = ' ';
+  //Acá se guarda el post ingresado
+  let post = document.getElementById('postArea').value;
+  //validación de textarea con contenido
+  if (post.length === 0 || post === null) {
+    return alert('Ingrese un comentario');
+  };
+
+  //Acá se imprimirán los post ingresados 
+  const postsContainer = document.getElementById('addPostUser');
+  //Se crea un div contenedor para nuevos elementos
+  const newPosts = document.createElement('div');
+  //crear ícono de comentario
+  const commentIcon = document.createElement('i');
+  commentIcon.classList.add('far', 'fa-comment-alt');
+  //crear ícono de me gusta
+  const likeIcon = document.createElement('i');
+  likeIcon.classList.add('fas', 'fa-heart', 'heart');
+  //crear ícono de agregar a amigos
+  const addUserIcon = document.createElement('i');
+  addUserIcon.classList.add('fas', 'fa-user-plus');
+
+  //Parentesco de los nodos creados
+  let textNewPosts = document.createTextNode(post);
+  const containerElements = document.createElement('div');
+  containerElements.appendChild(textNewPosts);
+  newPosts.appendChild(commentIcon);
+  newPosts.appendChild(likeIcon);
+  newPosts.appendChild(addUserIcon);
+  newPosts.appendChild(containerElements);
+  postsContainer.appendChild(newPosts);
+
+  //Función para eliminar post
+  //function removePost() { 
+  //  .parentNode.removeChild();
+  //}
+
+  //al ingresar post aparecerán estos elementos
+});
+//funcion de enviar post
+function sendMessage() {
+  const currentUser = firebase.auth().currentUser;
+  const PostAreaText = postArea.value;
+
+  //Para tener una nueva llave en la colección messages
+  const newMessageKey = firebase.database().ref().child('messages').push().key;
+
+  firebase.database().ref(`messages/${newMessageKey}`).set({
+    creator: currentUser.uid,
+    creatorName: currentUser.displayName,
+    text: PostAreaText
+  });
 }
 
-/*
-$('#loginGoogleBtn').click(function(){
-  firebase.auth()
-  .signInWhitPopup(provider)
-  .then(function(result) {
-    console.log(result.user);
-    $('#logInPage').hide();
-    $('#root').append("<img src'"+result.user.photoURL+"' />") //agregando etiqueta imagen al div root en el muro
-});
-m
-*/
+//======================================== CHAT ====================================
 
-// Mariel (Registro)
-//tomar valores del DOM
+// Función enviar chat
+function sendChat() {
+  const currentUser = firebase.auth().currentUser;
+  const chatAreaText = textAreaChat.value;
+  // Validar que no este vacío el chat
+  if (chatAreaText.length === 0 || chatAreaText == null) {
+    return alert('Debes ingresar un mensaje')
+  }
+  // Para tener una nueva llave en la colección messages del chat
+  const newChatKey = firebase.database().ref().child('chats').push().key;
+
+  firebase.database().ref(`chats/${newChatKey}`).set({
+    creator: currentUser.uid,
+    creatorName: currentUser.displayName,
+    text: chatAreaText
+  });
+}
+
+// ------Mariel-----
+
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+
 const userName = document.getElementById("name_input" );
+//tomar valores del DOM
 const errorNombre = document.getElementById("error_nombre");
 const userAge = document.getElementById("edad_input");
 const email = document.getElementById("email");
@@ -109,6 +246,7 @@ const errorConfirmPassword = document.getElementById("error_confirm_password");
 const rememberMe = document.getElementById("rememeber_check");
 const agree = document.getElementById("terms_check");
 const createAcountBtn = document.getElementById("create_acount_button");
+
 
 //validar que el nombre sean solo letras 
 userName.addEventListener('keyup', () =>{
@@ -123,7 +261,7 @@ userName.addEventListener('keyup', () =>{
 //validar que la contraseña tenga minimo 6 caracteres
 password2.addEventListener('keyup', () =>{
   if(password2.value.length < 6) {
-    errorMsg.innerHTML = "La contraseña debe tener minimo 6 caracteres";
+    errorMsg.innerHTML = "La contraseña debe tener como mínimo 6 caracteres";
   } else if(password2.value.length >= 6) {
     errorMsg.innerHTML = " ";
   }
@@ -134,7 +272,7 @@ confirmPassword.addEventListener('keyup', () => {
   if(password.value === confirmPassword.value){
     errorConfirmPassword.innerHTML = " ";
   } else {
-    errorConfirmPassword.innerHTML = "Por favor revisa, la contraseña debe coincidir";
+    errorConfirmPassword.innerHTML = "Porfavor revisa, ambas contraseñas deben coincidir";
   }
 })
 
@@ -149,7 +287,7 @@ function validateAgree(){
   }
 }
 
-//guardar estos valores en un usuario con local storage (con el boton recordar)
+// Guardando estos valores en un usuario con local storage (con el boton recordar)
 rememberMe.addEventListener('change', saveLocalUser, false);  
 
   function saveLocalUser(){
@@ -162,40 +300,39 @@ rememberMe.addEventListener('change', saveLocalUser, false);
     }
   }
 			
-//llevarme a la siguiente ventana con el boton 
+//llevarme al muro (Home page) al presionar botón Registrar 
 createAcountBtn.addEventListener('click', () => { 
     const emailVal = email.value; 
     const passwordVal = password.value; 
-    //crear esta cuenta en firebase (con el boton crear cuenta)
+    // Crear esta cuenta en Firebase (con el botón Registrar)
     firebase.auth().createUserWithEmailAndPassword(emailVal, passwordVal)
     .then(() => {
-      //cambiar de seccion
-    const hideSection = document.getElementById('registerPage');
-    hideSection.style.display = "none";
+    // ********Cambiar de sección**********
+    const hideSection = document.getElementById('registerPage'); // Esconder página de registro
+    const showSection1 = document.getElementById('navBar'); // Mostrar barra de navegación
+    const showSection2 = document.getElementById('loggedHome'); // Mostrar muro
     
-    const showSection = document.getElementById('homePage');
-    showSectio.style.display = "block";
+    hideSection.style.display = "none";
+    showSection1.style.display = "block";
+    showSection2.style.display = "block";
+    });
+        
+    // Creando colección de usuarios
+    const user = firebase.auth().currentUser;
 
-    }) 
-    .catch((error) => {
-      console.log('fallo el registro', error);
+    db.collection("users").add({
+      nombre: userName.value,
+      id: user.uid,
+      email: user.email,
+      edad : userAge.value
     })
-})
+    .then(function(docRef) {
+      //console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+    }) 
+   
 
-// Homepage (barbara)
-
-function postUser() {
-  const currentUser = firebase.auth().currentUser;
-  const postAreaText = postArea.value;
-
-  // Para obtener una nueva llave en la colección posts
-  const newPostKey = firebase.database().ref().child('posts').push().key;
-
-  firebase.database().ref(`posts/${newPostKey}`).set({ // ref(ruta donde guardamos el mensaje), se está creando un nuevo objeto
-      creator : currentUser.uid,
-      creatorName : currentUser.displayName,
-      text : postAreaText
-});
-}
-
- 
+    
