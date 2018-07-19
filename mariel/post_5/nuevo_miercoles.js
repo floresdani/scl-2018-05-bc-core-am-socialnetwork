@@ -245,13 +245,15 @@ let collectionRef;
 let id;
 let nombre;
 let texto;
+let time = new Date().getTime();
+let date = new Date(time).toLocaleString();
 
 let newPostKey;
 
- //guardar valores del DOM 
- const postbtn = document.getElementById("btn-post");
- const postArea = document.getElementById("postArea");
- const postValue = document.getElementById("postArea").value;
+//guardar valores del DOM 
+const postbtn = document.getElementById("btn-post");
+const postArea = document.getElementById("postArea");
+const postValue = document.getElementById("postArea").value;
 
 //validar que no este vacio para postear
 function validatePost() {
@@ -270,15 +272,14 @@ function createCollection() {
 
   //crear llave de cada post 
   const newPostKey = firebase.database().ref().child('post').push().key;
-  const startedAt = firebase.database.ServerValue.TIMESTAMP;
 
   firebase.database().ref(`post/${newPostKey}`).set({
     nombre: cUserName,
     usuario: currentUser.uid,
     texto: postAreaText,
     likesCount: 0,
-    llave : newPostKey,
-    timestamp: startedAt
+    llave: newPostKey,
+    date: date
   });
 }
 
@@ -304,8 +305,8 @@ function createCollection() {
 */
 
 //funcion que imprime 
-function imprimir(){
-  let postValue = document.getElementById("postArea");  
+function imprimir() {
+  let postValue = document.getElementById("postArea");
   const showPostArea = document.getElementById("addPostUser");
   //imprimiendo en html el post 
   //Acá comenzamos a escuchar por nuevos mensajes usando el evento
@@ -339,44 +340,44 @@ function eliminarPost(cUserName) {
   });
 };
 //guardar nuevo valor del texto
-let editText; 
+let editText;
 //funcion de editar post
 
-function editarPost(currentPostKey, texto){
+function editarPost(currentPostKey, texto) {
   const showPostArea = document.getElementById("addPostUser");
-  showPostArea.innerHTML = ""; 
+  showPostArea.innerHTML = "";
   const editButton = document.getElementById("edit-saved");
   editButton.style.display = "block";
 
-  editButton.addEventListener('click', () => { 
+  editButton.addEventListener('click', () => {
     document.getElementById("postArea").value = texto;
     document.getElementById("postArea").addEventListener('keypress', () => {
       editText = document.getElementById("postArea").value;
     })
-    lastUpdate(currentPostKey); 
- 
-     });
-    
-   }
+    lastUpdate(currentPostKey);
+
+  });
+
+}
 //funcion actualizar info
-const lastUpdate =  (currentPostKey) => {
+const lastUpdate = (currentPostKey) => {
   const editButton = document.getElementById("edit-saved");
-  const edit = document.getElementById("postArea").value; 
+  const edit = document.getElementById("postArea").value;
   //console.log(currentPostKey); 
-  const ref = firebase.database().ref(`post/${currentPostKey}` );
+  const ref = firebase.database().ref(`post/${currentPostKey}`);
   console.log(ref.val().texto);
   //const actual = ref.getAttribute('texto');
   //console.log(actual);
   update({
-    texto : editText
-   });
+    texto: editText
+  });
   editButton.style.display = "none";
 
   firebase.database().ref('post')
-  .on('child_changed', (newPost) => {
-  const showPostArea = document.getElementById("addPostUser");
+    .on('child_changed', (newPost) => {
+      const showPostArea = document.getElementById("addPostUser");
 
-  showPostArea.innerHTML += `
+      showPostArea.innerHTML += `
   <div class = "input_text_post">             
   <div> ${newPost.val().nombre}</div> 
   <div> : ${newPost.val().texto} </div>
@@ -384,8 +385,8 @@ const lastUpdate =  (currentPostKey) => {
   <button class = "btn-post" onclick="eliminarPost('${currentPostKey}')"><i class="fas fa-trash"></i></button>
   <button class = "btn-post" onclick="editarPost('${currentPostKey}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
   </div>
-  `; 
- })   
+  `;
+    })
 
 }
 
@@ -406,14 +407,14 @@ function counterLikes(cUserName, texto) {
   showLikes.value = i;
   if (i > 1 || i == 2) {
     document.getElementById('btnLikes').disabled = true;
-  var updates = {};
-  updates['/posts/' + newPostKey] = postData;
-  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+    var updates = {};
+    updates['/posts/' + newPostKey] = postData;
+    updates['/user-posts/' + uid + '/' + newPostKey] = postData;
 
-  return firebase.database().ref().update(updates);
+    return firebase.database().ref().update(updates);
 
-  
-  
- 
+
+
+
   }
 }
