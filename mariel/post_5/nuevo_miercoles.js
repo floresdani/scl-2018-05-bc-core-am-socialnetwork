@@ -19,8 +19,8 @@ window.onload = () => {
     // Llevarme a la ventana de crear cuenta al presionar botón Registro
     const registro = document.getElementById('registerBtn');
     registro.addEventListener('click', () => {
-      registerPage.style.display = "none";
       formRegisterPage.display = "block";
+      registerPage.style.display = "none";
       landingPage.style.display = "none";
 
     });
@@ -105,6 +105,7 @@ function loginFacebook() {
         id: user.uid,
         email: user.email,
         edad: userAge.value,
+        likesCount: 0,
 
       })
     })
@@ -273,6 +274,7 @@ function createCollection() {
     nombre: cUserName,
     usuario: currentUser.uid,
     texto: postAreaText,
+    likesCount: 0
 
   });
 }
@@ -356,14 +358,24 @@ function deleteOld() {
 
 // Función contador de LIKES
 let i = 0;
-function counterLikes() {
+function counterLikes(cUserName, texto) {
   // const btnLike = document.getElementById('btnLikes');
   i = i + 1;
   const showLikes = document.getElementById('likes-counter');
+  const newPostKey = firebase.database().ref().child('post').push().key;
   showLikes.innerHTML = i;
   console.log(showLikes)
-  // showLikes.value = i;
+  showLikes.value = i;
   if (i > 1 || i == 2) {
     document.getElementById('btnLikes').disabled = true;
+  var updates = {};
+  updates['/posts/' + newPostKey] = postData;
+  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+  return firebase.database().ref().update(updates);
+
+  
+  
+ 
   }
 }
