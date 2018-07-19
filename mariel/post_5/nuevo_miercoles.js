@@ -1,24 +1,38 @@
 // Initialize firebase
+var db = firebase.firestore();
+const settings = { timestampsInSnapshots: true };
+db.settings(settings);
 const database = firebase.database();
 
 window.onload = () => {
-  landingPage.style.display = "block";
-  registerPage.style.display = "none";
-  loggedOut.style.display = "none";
 
+
+  // Llevarme a la ventana de login al presionar botón Entrar 
   const entrar = document.getElementById('btn-entrar');
   entrar.addEventListener('click', () => {
-    registerPage.style.display = "block";
     landingPage.style.display = "none";
-    loggedOut.style.display = "block";
+    registerPage.style.display = "block";
+    loggedHomePage.style.display = "none";
+    formRegisterPage.display = "none";
+
+    // Llevarme a la ventana de crear cuenta al presionar botón Registro
+    const registro = document.getElementById('registerBtn');
+    registro.addEventListener('click', () => {
+      formRegisterPage.display = "block";
+      registerPage.style.display = "none";
+      landingPage.style.display = "none";
+
+    });
 
   });
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       //Si estamos logueados
-      loggedOut.style.display = "none";
-      loggedIn.style.display = "block";
+      loggedHomePage.style.display = "block";
+      registerPage.style.display = "none";
+      landingPage.style.display = "none";
+
 
       //evento del boton postear 
       postbtn.addEventListener('click', () => {
@@ -40,8 +54,11 @@ window.onload = () => {
 
     } else {
       //No estamos logueados
-      loggedOut.style.display = "block";
-      loggedIn.style.display = "none";
+      loggedHomePage.style.display = "none";
+      registerPage.style.display = "none";
+      //landingPage.style.display = "none";
+
+
     }
   })
 }
@@ -86,7 +103,8 @@ function loginFacebook() {
         id: user.uid,
         email: user.email,
         edad: userAge.value,
-        timestamp: startedAt
+        likesCount: 0,
+
       })
     })
     .catch((error) => {
@@ -176,7 +194,7 @@ function validateAgree() {
   }
 }
 
-//guardar estos valores en un usuario con local storage (con el boton recordar)
+//guardar estos valores en un usuario local storage (con el boton recordar)
 rememberMe.addEventListener('change', saveLocalUser, false);
 
 function saveLocalUser() {
@@ -249,21 +267,18 @@ function createCollection() {
   const postAreaText = postArea.value;
 
   //crear llave de cada post 
-  
-   newPostKey = firebase.database().ref().child('post').push().key;
-   const startedAt = firebase.database.ServerValue.TIMESTAMP;
-  
-   firebase.database().ref(`post/${newPostKey}`).set({
-    nombre : cUserName,
-    usuario:  currentUser.uid,
-    texto : postAreaText,
+  const newPostKey = firebase.database().ref().child('post').push().key;
+  const startedAt = firebase.database.ServerValue.TIMESTAMP;
+
+  firebase.database().ref(`post/${newPostKey}`).set({
+    nombre: cUserName,
+    usuario: currentUser.uid,
+    texto: postAreaText,
+    likesCount: 0,
     llave : newPostKey,
     timestamp: startedAt
-
-   });
- }
-     
-
+  });
+}
 
 //funcion para dejar post guardados en la pagina 
 
@@ -379,14 +394,24 @@ function deleteOld() {
 
 // Función contador de LIKES
 let i = 0;
-function counterLikes() {
+function counterLikes(cUserName, texto) {
   // const btnLike = document.getElementById('btnLikes');
   i = i + 1;
   const showLikes = document.getElementById('likes-counter');
+  const newPostKey = firebase.database().ref().child('post').push().key;
   showLikes.innerHTML = i;
   console.log(showLikes)
-  // showLikes.value = i;
+  showLikes.value = i;
   if (i > 1 || i == 2) {
     document.getElementById('btnLikes').disabled = true;
+  var updates = {};
+  updates['/posts/' + newPostKey] = postData;
+  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+  return firebase.database().ref().update(updates);
+
+  
+  
+ 
   }
 }
