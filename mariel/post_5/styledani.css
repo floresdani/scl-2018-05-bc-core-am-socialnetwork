@@ -7,19 +7,15 @@ body {
 #landingPage {
   display: block;
 }
-#loginPage {
+#registerPage {
   display: none;
 }
-#registerPage {
+#formRegisterPage {
   display: none;
 }
 
 #loggedHomePage {
   display: none;
-}
-
-#navBar {
-  display:none;
 }
 
 #logoSiembramigos{
@@ -29,10 +25,9 @@ body {
   display: block;
 }
 
-header{
+#containerLogo{
   padding: 20px;
   background-color: #59A686;
-
 }
 
 p{
@@ -62,6 +57,7 @@ h4{
 }
 
 /*Estilo página LogIn*/
+
 
 h1, h2, h4 {
   text-align: center;
@@ -127,6 +123,10 @@ p {
  
 .btn_container {
   margin-top: 1em;
+}
+
+#logoSiembramigos {
+  background-color: #59A686;
 }
 
 #loggedOut {
@@ -263,6 +263,10 @@ i {
   display: inline;
 }
 
+#edit-saved{
+  display: none;
+}
+
 @media screen and (max-width: 425px) {
   #new-post-container { 
     width: 250px;
@@ -324,4 +328,4 @@ i {
   #newPostFunctions_container{ 
     margin-left: 18%;
   }
-} /* FIN Tamaño DESKTOP */ 
+} /* FIN Tamaño DESKTOP */

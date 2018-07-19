@@ -239,17 +239,16 @@ createAcountBtn.addEventListener('click', () => {
 })
 //========================================HOME========================================
 //variables globales
-let collectionRef;
-let id;
 let nombre;
 let texto;
-
-let newPostKey;
+let editText; 
+let currentPostKey;
 
  //guardar valores del DOM 
  const postbtn = document.getElementById("btn-post");
  const postArea = document.getElementById("postArea");
  const postValue = document.getElementById("postArea").value;
+ const showPostArea = document.getElementById("addPostUser");
 
 //validar que no este vacio para postear
 function validatePost() {
@@ -303,8 +302,9 @@ function createCollection() {
 
 //funcion que imprime 
 function imprimir(){
-  let postValue = document.getElementById("postArea");  
-  const showPostArea = document.getElementById("addPostUser");
+  
+     // limpiar el textarea
+     document.getElementById('postArea').value = ' ';
   //imprimiendo en html el post 
   //Acá comenzamos a escuchar por nuevos mensajes usando el evento
   //on child_added
@@ -312,16 +312,18 @@ function imprimir(){
     .limitToLast(1)//cuántos post aparecerán antes de ser borrados
     .on('child_added', (newPost) => {
       //console.log(postValue);
-      postArea.innerHTML = "";
       //console.log(Object.values(newPost));
       //console.log(newPost)
+      currentPostKey = newPost.val().llave;
+      nombre = newPost.val().nombre;
+      texto =  newPost.val().texto;
       showPostArea.innerHTML += `
       <div class = "input_text_post">           
       <div> ${newPost.val().nombre}</div> 
       <div> : ${newPost.val().texto} </div>
       <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
       <button class = "btn-post" onclick="eliminarPost('${newPost.val().llave}')"><i class="fas fa-trash"></i></button>
-      <button class = "btn-post" onclick="editarPost('${newPost.val().llave}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
+      <button class = "btn-post" onclick="editarPost('${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
       </div>
       `;
     });
@@ -336,12 +338,15 @@ function eliminarPost(cUserName) {
     console.error("Error removing document: ", error);
   });
 };
-//guardar nuevo valor del texto
-let editText; 
+
 //funcion de editar post
 
-function editarPost(currentPostKey, texto){
-  const showPostArea = document.getElementById("addPostUser");
+function editarPost(texto){
+  document.getElementById("postArea").value = texto;
+  const editButton = document.getElementById("edit-saved");
+  editButton.style.display = "block";
+  showPostArea.innerHTML = ""; 
+  /*const showPostArea = document.getElementById("addPostUser");
   showPostArea.innerHTML = ""; 
   const editButton = document.getElementById("edit-saved");
   editButton.style.display = "block";
@@ -354,43 +359,40 @@ function editarPost(currentPostKey, texto){
     lastUpdate(currentPostKey); 
  
      });
-    
+    */
    }
+//tomar boton guardar desde el DOM
+const editButton = document.getElementById("edit-saved");
+editButton.addEventListener('click', () => { 
+  lastUpdate(); 
+})
 //funcion actualizar info
-const lastUpdate =  (currentPostKey) => {
-  const editButton = document.getElementById("edit-saved");
-  const edit = document.getElementById("postArea").value; 
-  //console.log(currentPostKey); 
-  const ref = firebase.database().ref(`post/${currentPostKey}` );
-  console.log(ref.val().texto);
-  //const actual = ref.getAttribute('texto');
-  //console.log(actual);
-  update({
-    texto : editText
-   });
+const lastUpdate =  () => {
+  //guardar nuevo valor del texto
+  editText = document.getElementById("postArea").value;
+  console.log(currentPostKey); 
+  firebase.database().ref('post').child(currentPostKey).update({
+    texto: editText
+  });
+  showEditPost();
+}
+
+//funcion que muestra el post actualizado 
+const showEditPost = () => {
   editButton.style.display = "none";
+  // limpiar el textarea
+  document.getElementById('postArea').value = ' ';
 
-  firebase.database().ref('post')
-  .on('child_changed', (newPost) => {
-  const showPostArea = document.getElementById("addPostUser");
-
-  showPostArea.innerHTML += `
-  <div class = "input_text_post">             
-  <div> ${newPost.val().nombre}</div> 
-  <div> : ${newPost.val().texto} </div>
-  <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
-  <button class = "btn-post" onclick="eliminarPost('${currentPostKey}')"><i class="fas fa-trash"></i></button>
-  <button class = "btn-post" onclick="editarPost('${currentPostKey}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
-  </div>
-  `; 
- })   
-
-}
-
-//funcion que borra el post anterior 
-function deleteOld() {
-
-}
+    showPostArea.innerHTML += `
+    <div class = "input_text_post">           
+    <div> ${nombre}</div> 
+    <div> : ${editText} </div>
+    <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
+    <button class = "btn-post" onclick="eliminarPost('${currentPostKey}')"><i class="fas fa-trash"></i></button>
+    <button class = "btn-post" onclick="editarPost('${editText}')"><i class="fas fa-pencil-alt"></i></button>
+    </div>
+    `;
+  }
 
 // Función contador de LIKES
 let i = 0;
@@ -409,9 +411,6 @@ function counterLikes(cUserName, texto) {
   updates['/user-posts/' + uid + '/' + newPostKey] = postData;
 
   return firebase.database().ref().update(updates);
-
   
-  
- 
   }
 }
