@@ -285,7 +285,8 @@ function createCollection() {
     usuario: currentUser.uid,
     texto: postAreaText,
     llave: newPostKey,
-    date: date
+    date: date,
+    likesCount: 0
   });
 }
 
@@ -402,8 +403,10 @@ function deleteOld() {
 }
 
 // Función contador de LIKES
+
+
 /*let i = 0;
-function counterLikes(cUserName, texto) {
+function Likes(cUserName, texto) {
   // const btnLike = document.getElementById('btnLikes');
   i = i + 1;
   const showLikes = document.getElementById('likes-counter');
@@ -415,7 +418,7 @@ function counterLikes(cUserName, texto) {
     document.getElementById('btnLikes').disabled = true;
     
   }
-}*/
+}
 
 function counterLikes(event) {
   
@@ -429,3 +432,4 @@ function counterLikes(event) {
     }
   })
 }
+*/
