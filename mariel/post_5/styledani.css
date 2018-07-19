@@ -7,15 +7,19 @@ body {
 #landingPage {
   display: block;
 }
-#registerPage {
+#loginPage {
   display: none;
 }
-#formRegisterPage {
+#registerPage {
   display: none;
 }
 
 #loggedHomePage {
   display: none;
+}
+
+#navBar {
+  display:none;
 }
 
 #logoSiembramigos{
@@ -27,6 +31,8 @@ body {
 
 header{
   padding: 20px;
+  background-color: #59A686;
+
 }
 
 p{
@@ -56,7 +62,6 @@ h4{
 }
 
 /*Estilo página LogIn*/
-
 
 h1, h2, h4 {
   text-align: center;
@@ -122,10 +127,6 @@ p {
  
 .btn_container {
   margin-top: 1em;
-}
-
-#logoSiembramigos {
-  background-color: #59A686;
 }
 
 #loggedOut {
