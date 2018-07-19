@@ -1,7 +1,54 @@
 /*==========Aquí comienza estilo de login page==========*/
-#loginBody {
+body {
   background-color: #A7D9A2;
   align-items: center;
+}
+/*Estilo landingPage*/
+
+#landingPage{
+  display: block;
+}
+
+#logoSiembramigos{
+  background-color: #F2B84B;
+  text-align: center;
+  font-family: roboto;
+  display: block;
+}
+
+header{
+  padding: 20px;
+}
+
+p{
+  color: #0D5A3A;
+}
+
+h4{
+  color: #132936;
+}
+
+#paragraph{
+  text-align:center;
+  padding: 10%;
+}
+
+#boton{
+  text-align: center;
+}
+
+#btn-entrar {
+  margin-bottom: 5%;
+  background-color: #F2B84B;
+  color: red;
+  font-weight: bold;
+  border: none;
+  padding: 15px;
+}
+
+/*Estilo página LogIn*/
+#loggedOut {
+  display: none;
 }
 
 h1, h2, h4 {
@@ -14,6 +61,63 @@ p {
 }
 
 #logo {
+  background-color: #59A686;
+}
+
+#loggedOut {
+  margin-top: 4em;
+}
+
+.btn {
+  border-radius: 50%;
+  border-color: transparent;
+  border-width: 0px;
+  padding: 0px;
+  display: inline;
+}
+
+.btnBlue {
+  background: #00BCD4;
+  border-radius: 2px;
+  color: beige;
+}
+
+.btnBlueEnter {
+  background: #00BCD4;
+  border-radius: 2px;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  color: beige;
+}
+
+#btnLoginWith {
+  text-align: center;
+  margin-left: 0px;
+}
+
+#containerBtn {
+  text-align: center;
+}
+  
+.input_container {
+  margin-bottom: 0;
+}
+
+#div_btn {
+  width: 30%;
+  margin: auto;
+}
+
+#register_container {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+ 
+.btn_container {
+  margin-top: 1em;
+}
+
+#logoSiembramigos {
   background-color: #59A686;
 }
 
