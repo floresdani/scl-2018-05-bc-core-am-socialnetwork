@@ -2,10 +2,10 @@ body{
   background-color: #A7D9A2;
 }
 
-/*Estilo landingPage*/
-
-#landingPage{
-  display: block;
+header{
+  padding: 20px;
+  background: #59A686;
+  height: 76px;
 }
 
 #logoSiembramigos{
@@ -15,8 +15,10 @@ body{
   display: block;
 }
 
-header{
-  padding: 20px;
+/*Estilo landingPage*/
+
+#loginPage{
+  display: block;
 }
 
 p{
@@ -46,12 +48,10 @@ h4{
 }
 
 /*Estilo página LogIn*/
-#loggedOut {
+#loginPage {
   display: none;
-}
+  margin-top: 4em;
 
-h1, h2, h4 {
-  text-align: center;
 }
 
 p {
@@ -63,11 +63,7 @@ p {
   background-color: #59A686;
 }
 
-#loggedOut {
-  margin-top: 4em;
-}
-
-.btn {
+#loginFacebook, #loginGoogle {
   border-radius: 50%;
   border-color: transparent;
   border-width: 0px;
@@ -122,23 +118,14 @@ p {
   display: none;
 }
 
-header{
-  background: #59A686;
-  height: 76px;
-}
-
-body{
-  background-color: #A7D9A2;
-}
-
 #register_section{
-  display: block;
-  padding: 0%;
-  
+  padding: 0%;  
 }
+
 .col-12{
   background-color: #A7D9A2;
 }
+
 #form_section{
   margin: auto;
   text-align: center;
@@ -227,7 +214,7 @@ body{
 }
 
 /*Estilo página Muro (homePage)*/ 
-#loggedHome {
+#loggedHomePage {
   display: none; 
 }
 
@@ -239,10 +226,6 @@ h1, h2, h4 {
 p {
   margin-top: 0;
   margin-bottom: 0;
-}
-
-#logo {
-  background-color: #59A686;
 }
 
 #loggedOut {
@@ -298,17 +281,6 @@ margin-bottom: 1em;
   margin-top: 1em;
 }
 
-/*==========Aquí comienza estilo de home page==========*/
-/*Estilo homePage*/
-/*
-#homePage {
-  display: none;
-}
-*/
-
-nav {
-  background-color: #F2B84B;
-}
 
 .images-icon {
   margin: 0%;
@@ -427,7 +399,6 @@ i {
   }
 }
 /*FIN DE TAMAÑO CELULAR S*/
-
 
 /* Tamaño tablet */ 
 @media screen and (min-width: 760px) {
