@@ -36,13 +36,16 @@ window.onload = () => {
 
       //evento del boton postear 
       postbtn.addEventListener('click', () => {
-       
-        
+
+
         const postValue = document.getElementById("postArea").value;
-  if (postValue.length == 0 ) { postbtn.disabled = false; 
-  } else { postbtn.disabled = true;
-    createCollection();
-    imprimir();}
+        if (postValue.length == 0) {
+        postbtn.disabled = false;
+        } else {
+        postbtn.disabled = true;
+          createCollection();
+          imprimir();
+        }
       })
       //const user = firebase.auth().currentUser;
       //if(user){
@@ -229,7 +232,7 @@ createAcountBtn.addEventListener('click', () => {
         id: user.uid,
         email: user.email,
         edad: userAge.value,
-        likesCount: 0
+        
 
       })
         .then(function (docRef) {
@@ -262,7 +265,8 @@ const postValue = document.getElementById("postArea").value;
 //validar que no este vacio para postear
 function validatePost() {
   const postValue = document.getElementById("postArea").value;
-  if (postValue.length == 0 ) { postbtn.disabled = false; 
+  if (postValue.length == 0) {
+  postbtn.disabled = false;
   } else { postbtn.disabled = true; }
 }
 
@@ -280,7 +284,6 @@ function createCollection() {
     nombre: cUserName,
     usuario: currentUser.uid,
     texto: postAreaText,
-    likesCount: 0,
     llave: newPostKey,
     date: date
   });
@@ -325,7 +328,7 @@ function imprimir() {
       <div class = "input_text_post">           
       <div> ${newPost.val().nombre}</div> 
       <div> : ${newPost.val().texto} </div>
-      <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
+      <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" data-like="${newPost.llave}" onclick="counterLikes(event)"></i><p id="likes-counter">${newPostval().counterLikes}</p></button>
       <button class = "btn-post" onclick="eliminarPost('${newPost.val().llave}')"><i class="fas fa-trash"></i></button>
       <button class = "btn-post" onclick="editarPost('${newPost.val().llave}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
       </div>
@@ -384,7 +387,7 @@ const lastUpdate = (currentPostKey) => {
   <div class = "input_text_post">             
   <div> ${newPost.val().nombre}</div> 
   <div> : ${newPost.val().texto} </div>
-  <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
+  <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" data-like="${currentPostKey}" onclick="counterLikes(event)"></i><p id="likes-counter">${currentPostKey.val().counterLikes}</p></button>
   <button class = "btn-post" onclick="eliminarPost('${currentPostKey}')"><i class="fas fa-trash"></i></button>
   <button class = "btn-post" onclick="editarPost('${currentPostKey}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
   </div>
@@ -399,7 +402,7 @@ function deleteOld() {
 }
 
 // Función contador de LIKES
-let i = 0;
+/*let i = 0;
 function counterLikes(cUserName, texto) {
   // const btnLike = document.getElementById('btnLikes');
   i = i + 1;
@@ -410,14 +413,19 @@ function counterLikes(cUserName, texto) {
   showLikes.value = i;
   if (i > 1 || i == 2) {
     document.getElementById('btnLikes').disabled = true;
-    var updates = {};
-    updates['/posts/' + newPostKey] = postData;
-    updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-
-    return firebase.database().ref().update(updates);
-
-
-
-
+    
   }
+}*/
+
+function counterLikes(event) {
+  
+  const idLike = event.target.getAttribute('data-like');
+  firebase.database().ref('post/' + idLike).once('value', function (posts) {
+    let total = (post.child('likesCount').val() || 1);
+    if(posts) {
+      firebase.database().ref('post').child(idLike).update({
+        likesCount: total,
+      });
+    }
+  })
 }
