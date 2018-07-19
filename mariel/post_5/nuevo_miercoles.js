@@ -257,7 +257,7 @@ function createCollection() {
     nombre : cUserName,
     usuario:  currentUser.uid,
     texto : postAreaText,
-    llave : newPostKey
+    llave : newPostKey,
     timestamp: startedAt
 
    });
