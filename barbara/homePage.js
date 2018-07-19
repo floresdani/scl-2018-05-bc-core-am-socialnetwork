@@ -1,3 +1,8 @@
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+const settings = {timestampsInSnapshots: true};
+  db.settings(settings);
+
 window.onload = () => {
 
   inicializarFirebase();
@@ -18,6 +23,7 @@ window.onload = () => {
 
   //--------Daniela--------
   function inicializarFirebase() {
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) { //Si estamos logueados
 
@@ -52,6 +58,44 @@ window.onload = () => {
       }
     });
   }
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) { //Si estamos logueados
+
+      loggedOut.style.display = "none";
+      navBar.style.display = "block";
+      loggedHome.style.display = "block";
+      
+      const displayName = user.displayName;
+      const userPhoto = user.photoURL;
+      const phoneNumber = user.phoneNumber;
+      const email = user.email;
+      
+      // Imprimiendo imagen de perfil en el muro
+      homePageImageUser.style.backgroundImage = "url("+userPhoto+")";
+
+      // Imprimiendo datos de contacto y foto en perfil
+      profileName.textContent = displayName;
+      profileImage.style.backgroundImage = "url("+userPhoto+")";
+      emailProfile.textContent = email;
+      phone.textContent = phoneNumber;
+
+      function accesToProfile () {
+        loggedHome.style.display = "none";
+        navBar.style.display = "block";
+        loggedProfile.style.display = "block";
+      };
+
+      console.log("User > " + JSON.stringify(user));
+
+    } else {
+      //No estamos logueados
+      landingPage.style.display = "block";
+      navBar.style.display = "none";
+      loggedHome.style.display = "none";
+    }
+  });
+}
 
   firebase.database().ref('messages')
     .limitToLast(2) // Filtro para no obtener todos los mensajes
@@ -98,19 +142,18 @@ function logout() {
     .then(() => {
       const logOutBtn = document.getElementById('logOutButton');
       logOutBtn.addEventListener('click', () => {
+
         landingPage.style.display = "block";
         navBar.style.display = "none";
         loggedOut.style.display = "none";
-      });
-
-      console.log("Vuelve pronto, te extrañaremos");
+        console.log("Vuelve pronto, te extrañaremos");
     })
     .catch();
 }
 // Aquí va la función de iniciar sesión con Facebook
 function loginFacebook() {
   const provider = new firebase.auth.FacebookAuthProvider();
-  //provider.addScope("user_birthday"); tienen que pedirle permiso a facebook
+
   provider.setCustomParameters({
     'display': 'popup'
   });
@@ -156,6 +199,7 @@ function loginGoogle() {
 //========================================HOME========================================
 // Homepage
 const btnPost = document.getElementById('btnSendPost');
+
 btnPost.addEventListener('click', () => {
   //Limpiar textarea
   document.getElementById('postArea').value = ' ';
@@ -253,7 +297,19 @@ const errorConfirmPassword = document.getElementById("error_confirm_password");
 const rememberMe = document.getElementById("rememeber_check");
 const agree = document.getElementById("terms_check");
 const createAcountBtn = document.getElementById("create_acount_button");
-
+const userName = document.getElementById('name_input');
+//tomar valores del DOM
+const errorNombre = document.getElementById('error_nombre');
+const userAge = document.getElementById('edad_input');
+const email = document.getElementById('email_register');
+const password = document.getElementById('enter_password'); 
+const password2 = document.getElementById('enter_password');
+const errorMsg = document.getElementById('error_password')
+const confirmPassword = document.getElementById('confirm_password');
+const errorConfirmPassword = document.getElementById('error_confirm_password');
+const rememberMe = document.getElementById('remember_check');
+const agree = document.getElementById('terms_check');
+const createAcountBtn = document.getElementById('create_acount_button');
 
 //validar que el nombre sean solo letras 
 userName.addEventListener('keyup', () => {
@@ -261,7 +317,7 @@ userName.addEventListener('keyup', () => {
   if (letras.test(userName.value)) {
     errorNombre.innerHTML = " ";
   } else {
-    errorNombre.innerHTML = "El nombre debe contener solo letras";
+    errorNombre.innerHTML = "El nombre debe contener sólo letras";
   }
 })
 
@@ -279,7 +335,7 @@ confirmPassword.addEventListener('keyup', () => {
   if (password.value === confirmPassword.value) {
     errorConfirmPassword.innerHTML = " ";
   } else {
-    errorConfirmPassword.innerHTML = "Porfavor revisa, ambas contraseñas deben coincidir";
+    errorConfirmPassword.innerHTML = "Por favor revisa, ambas contraseñas deben coincidir";
   }
 })
 
@@ -295,6 +351,7 @@ function validateAgree() {
 }
 
 // Guardando estos valores en un usuario con local storage (con el boton recordar)
+
 rememberMe.addEventListener('change', saveLocalUser, false);
 
 function saveLocalUser() {
@@ -304,10 +361,22 @@ function saveLocalUser() {
     window.localStorage.setItem('email', JSON.stringify(email.value));
     window.localStorage.setItem('nombre', JSON.stringify(userName.value));
     window.localStorage.setItem('edad', JSON.stringify(userAge.value));
+
+rememberMe.addEventListener('change', saveLocalUser, false);  
+
+  function saveLocalUser(){
+    let checked = rememberMe.checked; 
+    if(checked){
+      window.localStorage.setItem('password', JSON.stringify(enter_password.value));
+      window.localStorage.setItem('email', JSON.stringify(email_register.value));
+      window.localStorage.setItem('nombre', JSON.stringify(userName.value));
+      window.localStorage.setItem('edad', JSON.stringify(userAge.value));
+    }
   }
 }
 
 //llevarme al muro (Home page) al presionar botón Registrar 
+
 createAcountBtn.addEventListener('click', () => {
   const emailVal = email.value;
   const passwordVal = password.value;
@@ -322,6 +391,18 @@ createAcountBtn.addEventListener('click', () => {
       hideSection.style.display = "none";
       showSection1.style.display = "block";
       showSection2.style.display = "block";
+
+function createAccount() { 
+    const emailVal = email_register.value; 
+    const passwordVal = enter_password.value; 
+    // Crear esta cuenta en Firebase (con el botón Registrar)
+    firebase.auth().createUserWithEmailAndPassword(emailVal, passwordVal)
+    .then(() => {
+    // ********Cambiar de sección**********
+    registerPage.style.display ="none"; // Esconder página de registro
+    navBar.style.display="block";// Mostrar barra de navegación
+    loggedHome.style.display="block";// Mostrar muro
+    
     });
 
   // Creando colección de usuarios
@@ -340,5 +421,7 @@ createAcountBtn.addEventListener('click', () => {
       console.error("Error adding document: ", error);
     });
 })
+    }
+   
 
-
+    

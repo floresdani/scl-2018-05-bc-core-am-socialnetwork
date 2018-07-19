@@ -229,9 +229,84 @@ function validatePost(){
     alert("texto vacio");
   }
 }
+<<<<<<< HEAD:mariel/post 4/loginmain.js
+//variables globales 
+let userName;
+let textSaved;
+
+//evento del boton postear
+ //guardar valores del DOM 
+ const postbtn = document.getElementById("btn-post");
+ const postArea = document.getElementById("postArea");
+postbtn.addEventListener('click', () =>{ 
+  validatePost();
+  const currentUser = firebase.auth().currentUser;
+  const postAreaText = postArea.value;
+  //creando colleccion de post 
+  createCollection()
+      let  showPostArea = document.getElementById("addPostUser");
+      //llamando a la nueva coleccion y refrescando el input 
+        db.collection("usersPost").onSnapshot((querySnapshot) => {
+          showPostArea.innerHTML = " ";               
+       })
+       showNewPost();
+    })
+
+//funcion que guarda el nombre del usuario
+db.collection("users").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  userName = doc.data().nombre;
+  //console.log(userName);
+}) 
+})
+//funcion que guarda el texto
+db.collection("usersPost").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  textSaved = doc.data().texto;
+  //console.log(userName);
+}) 
+
+})
+//escuchando el evento onSnapshot, cada vez que se crea un post
+function createCollection(){ 
+  const postArea = document.getElementById("postArea");
+
+    const currentUser = firebase.auth().currentUser; 
+    const postAreaText = postArea.value;
+    db.collection("usersPost").add({
+    nombre : userName,
+    usuario:  currentUser.uid,
+    texto : postAreaText
+
+  }) 
+  .then(function(docRef) {
+    //console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      //console.error("Error adding document: ", error);
+  });  
+}
+=======
+>>>>>>> 1ff6f5a3e1a5376a17fe5a8229f292b0abf205f5:mariel/post 4_cloud/loginmain.js
 
 //funcion que crea la coleccion de usuario
 function showNewPost(){
+<<<<<<< HEAD:mariel/post 4/loginmain.js
+  const showPostArea = document.getElementById("addPostUser");     
+      
+       //imprimiendo en html el post 
+      showPostArea.innerHTML +=  `
+      <div class = "input_text_post">             
+      <div>${userName} </div> 
+      <div> : ${textSaved}</div>
+      <<button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
+      <button class = "btn-post" onclick="eliminarPost('${doc.id}')"><i class="fas fa-trash"></i></button>
+      <button class = "btn-post" onclick="editarPost('${doc.id}', '${doc.data().texto}')"><i class="fas fa-pencil-alt"></i></button>
+      </div>
+      `;
+        console.log(`${doc.id} => ${doc.data()}`);  
+};
+=======
   
   const currentUser = firebase.auth().currentUser; 
   const cUserName = currentUser.displayName;
@@ -328,6 +403,7 @@ function addNewPost(){
         imprimir();
       })
   }
+>>>>>>> 1ff6f5a3e1a5376a17fe5a8229f292b0abf205f5:mariel/post 4_cloud/loginmain.js
 
 //funcion para dejar post guardados en la pagina 
 
