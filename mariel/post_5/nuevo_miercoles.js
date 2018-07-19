@@ -36,9 +36,13 @@ window.onload = () => {
 
       //evento del boton postear 
       postbtn.addEventListener('click', () => {
-        validatePost();
-        createCollection();
-        imprimir();
+       
+        
+        const postValue = document.getElementById("postArea").value;
+  if (postValue.length == 0 ) { postbtn.disabled = false; 
+  } else { postbtn.disabled = true;
+    createCollection();
+    imprimir();}
       })
       //const user = firebase.auth().currentUser;
       //if(user){
@@ -258,9 +262,8 @@ const postValue = document.getElementById("postArea").value;
 //validar que no este vacio para postear
 function validatePost() {
   const postValue = document.getElementById("postArea").value;
-  if (postValue.length === 0) {
-    prompt("texto vacio");
-  }
+  if (postValue.length == 0 ) { postbtn.disabled = false; 
+  } else { postbtn.disabled = true; }
 }
 
 //funcion que crea la coleccion de usuario
