@@ -46,6 +46,7 @@ window.onload = () => {
 
       function accesToProfile () {
         loggedHome.style.display = "none";
+        navBar.style.display = "block";
         loggedProfile.style.display = "block";
       };
 
@@ -110,7 +111,7 @@ function logout() {
 // Aquí va la función de iniciar sesión con Facebook
 function loginFacebook() {
   const provider = new firebase.auth.FacebookAuthProvider();
-  //provider.addScope("user_birthday"); tienen que pedirle permiso a facebook
+
   provider.setCustomParameters({
     'display': 'popup'
   });
@@ -156,6 +157,7 @@ function loginGoogle() {
 //========================================HOME========================================
 // Homepage
 const btnPost = document.getElementById('btnSendPost');
+
 btnPost.addEventListener('click', () => {
   //Limpiar textarea
   document.getElementById('postArea').value = ' ';
@@ -237,19 +239,19 @@ function sendChat() {
 // Initialize Cloud Firestore through Firebase
 var db = firebase.firestore();
 
-const userName = document.getElementById("name_input");
+const userName = document.getElementById('name_input');
 //tomar valores del DOM
-const errorNombre = document.getElementById("error_nombre");
-const userAge = document.getElementById("edad_input");
-const email = document.getElementById("email");
-const password = document.getElementById("password"); 
-const password2 = document.getElementById("password");
-const errorMsg = document.getElementById("error_password")
-const confirmPassword = document.getElementById("confirm_password");
-const errorConfirmPassword = document.getElementById("error_confirm_password");
-const rememberMe = document.getElementById("rememeber_check");
-const agree = document.getElementById("terms_check");
-const createAcountBtn = document.getElementById("create_acount_button");
+const errorNombre = document.getElementById('error_nombre');
+const userAge = document.getElementById('edad_input');
+const email = document.getElementById('email_register');
+const password = document.getElementById('enter_password'); 
+const password2 = document.getElementById('enter_password');
+const errorMsg = document.getElementById('error_password')
+const confirmPassword = document.getElementById('confirm_password');
+const errorConfirmPassword = document.getElementById('error_confirm_password');
+const rememberMe = document.getElementById('remember_check');
+const agree = document.getElementById('terms_check');
+const createAcountBtn = document.getElementById('create_acount_button');
 
 
 //validar que el nombre sean solo letras 
@@ -276,7 +278,7 @@ confirmPassword.addEventListener('keyup', () => {
   if(password.value === confirmPassword.value){
     errorConfirmPassword.innerHTML = " ";
   } else {
-    errorConfirmPassword.innerHTML = "Porfavor revisa, ambas contraseñas deben coincidir";
+    errorConfirmPassword.innerHTML = "Por favor revisa, ambas contraseñas deben coincidir";
   }
 })
 
@@ -297,28 +299,25 @@ rememberMe.addEventListener('change', saveLocalUser, false);
   function saveLocalUser(){
     let checked = rememberMe.checked; 
     if(checked){
-      window.localStorage.setItem('password', JSON.stringify(password.value));
-      window.localStorage.setItem('email', JSON.stringify(email.value));
+      window.localStorage.setItem('password', JSON.stringify(enter_password.value));
+      window.localStorage.setItem('email', JSON.stringify(email_register.value));
       window.localStorage.setItem('nombre', JSON.stringify(userName.value));
       window.localStorage.setItem('edad', JSON.stringify(userAge.value));
     }
   }
 			
 //llevarme al muro (Home page) al presionar botón Registrar 
-createAcountBtn.addEventListener('click', () => { 
-    const emailVal = email.value; 
-    const passwordVal = password.value; 
+function createAccount() { 
+    const emailVal = email_register.value; 
+    const passwordVal = enter_password.value; 
     // Crear esta cuenta en Firebase (con el botón Registrar)
     firebase.auth().createUserWithEmailAndPassword(emailVal, passwordVal)
     .then(() => {
     // ********Cambiar de sección**********
-    const hideSection = document.getElementById('registerPage'); // Esconder página de registro
-    const showSection1 = document.getElementById('navBar'); // Mostrar barra de navegación
-    const showSection2 = document.getElementById('loggedHome'); // Mostrar muro
+    registerPage.style.display ="none"; // Esconder página de registro
+    navBar.style.display="block";// Mostrar barra de navegación
+    loggedHome.style.display="block";// Mostrar muro
     
-    hideSection.style.display = "none";
-    showSection1.style.display = "block";
-    showSection2.style.display = "block";
     });
         
     // Creando colección de usuarios
@@ -336,7 +335,7 @@ createAcountBtn.addEventListener('click', () => {
     .catch(function(error) {
       console.error("Error adding document: ", error);
     });
-    }) 
+    }
    
 
     

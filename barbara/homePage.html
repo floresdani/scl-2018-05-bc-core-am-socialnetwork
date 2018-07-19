@@ -110,7 +110,7 @@
                 <h6>¿No tienes cuenta?</h6>
               </div>
               <div class="btn_container"></div>
-              <button id="registerBtn" class="btnBlue" onclick="register()" type="button">Registro</button>
+              <button id="registerBtn" class="btnBlue" type="button">Registro</button>
             </div>
             <!-- Aquí termina registrar usuario -->
           </div>
@@ -134,9 +134,9 @@
                   <p class="nombre_input">Edad</p>
                   <input type="number" class="input_place" name="edad" id="edad_input" placeholder="edad"> 
                   <p class="nombre_input">Email</p>
-                  <input id="email" type="email" class="input_place" placeholder="mimail@gmail.com">
+                  <input id="email_register" type="email" class="input_place" placeholder="mimail@gmail.com">
                   <p class="nombre_input">Contraseña</p>
-                  <input id="password" type="password" class="input_place" placeholder="escribe tu clave">
+                  <input id="enter_password" type="password" class="input_place" placeholder="escribe tu clave">
                   
                   <p class="error" id="email_invalid"></p>
                   <p id="error_password" class="error"></p>
@@ -152,7 +152,7 @@
                   <div class="row">
                     <input type="checkbox" aria-label="Checkbox para aceptar terminos y condiciones del servicio" name="check_2" id="terms_check"><p class="check_text" id="terms_text">Acepto los terminos y <br> condiciones </p> 
                   </div>
-                  <input type="button" id="create_acount_button" value="REGISTRAR">
+                  <input type="button" id="create_acount_button" onclick="createAccount()"" value="REGISTRAR">
                   </div>
                 </div>
                 </section><!-- section form -->
@@ -230,12 +230,12 @@
                             <select>
                               <option selected>Selecione categoría</option>
                               <option value="1">Compost</option>
-                              <option value="3">Ecología</option>
+                              <option value="2">Ecología</option>
                               <option value="3">Energías renovables</option>
-                              <option value="3">Lombricultura</option>
-                              <option value="3">Reciclaje</option>
-                              <option value="3">Outdoor</option>
-                              <option value="2">Vida sana</option>
+                              <option value="4">Lombricultura</option>
+                              <option value="5">Reciclaje</option>
+                              <option value="6">Outdoor</option>
+                              <option value="7">Vida sana</option>
                             </select>
                           </form>
                         </div>
@@ -302,24 +302,15 @@
              
               <div class="tab-pane fade" id="list-hobbies" role="tabpanel" aria-labelledby="list-profile-list">Mis pasatiempos favoritos son...</div>
 
-
               <div class="tab-pane fade" id="list-photos" role="tabpanel" aria-labelledby="list-messages-list">Mis fotos favoritas</div>
-
 
               <div class="tab-pane fade" id="list-extraData" role="tabpanel" aria-labelledby="list-settings-list">Datos extra...</div>
               <div id="age"></div>
-
-
             </div>
           </div>
         </div>
-
-        <div id="dataUser">
-        </div>
-
-        </section>
-
-        
+       </section>
+ 
     <!-- ========================= Comienzo de página CHAT ===================-->
     <section id="loggedChat">
       <div id="sidenav" class="row">
