@@ -3,10 +3,19 @@ body {
   background-color: #A7D9A2;
   align-items: center;
 }
-/*Estilo landingPage*/
-
-#landingPage{
+/*DISPLAY*/
+#landingPage {
   display: block;
+}
+#registerPage {
+  display: none;
+}
+#formRegisterPage {
+  display: none;
+}
+
+#loggedHomePage {
+  display: none;
 }
 
 #logoSiembramigos{
@@ -47,9 +56,7 @@ h4{
 }
 
 /*Estilo página LogIn*/
-#loggedOut {
-  display: none;
-}
+
 
 h1, h2, h4 {
   text-align: center;

@@ -1,24 +1,39 @@
 // Initialize firebase
-var database = firebase.database();
+var db = firebase.firestore();
+const settings = { timestampsInSnapshots: true };
+db.settings(settings);
+
+
 
 window.onload = () => {
-  landingPage.style.display = "block";
-  registerPage.style.display = "none";
-  loggedOut.style.display = "none";
 
+
+  // Llevarme a la ventana de login al presionar botón Entrar 
   const entrar = document.getElementById('btn-entrar');
   entrar.addEventListener('click', () => {
-    registerPage.style.display = "block";
     landingPage.style.display = "none";
-    loggedOut.style.display = "block";
+    registerPage.style.display = "block";
+    loggedHomePage.style.display = "none";
+    formRegisterPage.display = "none";
+
+    // Llevarme a la ventana de crear cuenta al presionar botón Registro
+    const registro = document.getElementById('registerBtn');
+    registro.addEventListener('click', () => {
+      registerPage.style.display = "none";
+      formRegisterPage.display = "block";
+      landingPage.style.display = "none";
+
+    });
 
   });
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       //Si estamos logueados
-      loggedOut.style.display = "none";
-      loggedIn.style.display = "block";
+      loggedHomePage.style.display = "block";
+      registerPage.style.display = "none";
+      landingPage.style.display = "none";
+
 
       //evento del boton postear 
       postbtn.addEventListener('click', () => {
@@ -41,8 +56,11 @@ window.onload = () => {
 
     } else {
       //No estamos logueados
-      loggedOut.style.display = "block";
-      loggedIn.style.display = "none";
+      loggedHomePage.style.display = "none";
+      registerPage.style.display = "none";
+      //landingPage.style.display = "none";
+
+
     }
   })
 }
@@ -87,7 +105,7 @@ function loginFacebook() {
         id: user.uid,
         email: user.email,
         edad: userAge.value,
-        timestamp: startedAt
+
       })
     })
     .catch((error) => {
@@ -177,7 +195,7 @@ function validateAgree() {
   }
 }
 
-//guardar estos valores en un usuario con local storage (con el boton recordar)
+//guardar estos valores en un usuario local storage (con el boton recordar)
 rememberMe.addEventListener('change', saveLocalUser, false);
 
 function saveLocalUser() {
@@ -255,7 +273,7 @@ function createCollection() {
     nombre: cUserName,
     usuario: currentUser.uid,
     texto: postAreaText,
-    timestamp: startedAt
+
   });
 }
 
