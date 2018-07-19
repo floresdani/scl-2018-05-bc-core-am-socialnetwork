@@ -2,8 +2,7 @@
 var db = firebase.firestore();
 const settings = { timestampsInSnapshots: true };
 db.settings(settings);
-
-
+const database = firebase.database();
 
 window.onload = () => {
 
@@ -105,7 +104,7 @@ function loginFacebook() {
         id: user.uid,
         email: user.email,
         edad: userAge.value,
-        likesCount: 0,
+        likesCount: 0
 
       })
     })
@@ -226,7 +225,9 @@ createAcountBtn.addEventListener('click', () => {
         nombre: userNameInput.value,
         id: user.uid,
         email: user.email,
-        edad: userAge.value
+        edad: userAge.value,
+        likesCount: 0
+
       })
         .then(function (docRef) {
           //console.log("Document written with ID: ", docRef.id);
