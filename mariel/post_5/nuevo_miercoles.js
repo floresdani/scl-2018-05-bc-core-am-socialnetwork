@@ -2,6 +2,17 @@
 var database = firebase.database();
 
 window.onload = () => {
+  landingPage.style.display = "block";
+  registerPage.style.display = "none";
+  loggedOut.style.display = "none";
+
+  const entrar = document.getElementById('btn-entrar');
+  entrar.addEventListener('click', () => {
+    registerPage.style.display = "block";
+    landingPage.style.display = "none";
+
+  });
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       //Si estamos logueados
