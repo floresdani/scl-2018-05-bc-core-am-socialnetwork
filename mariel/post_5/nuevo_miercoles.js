@@ -224,7 +224,7 @@ createAcountBtn.addEventListener('click', () => {
         nombre: userNameInput.value,
         id: user.uid,
         email: user.email,
-        edad: userAge.value
+        edad: userAge.value        
       })
         .then(function (docRef) {
           //console.log("Document written with ID: ", docRef.id);
@@ -243,6 +243,8 @@ let nombre;
 let texto;
 let editText; 
 let currentPostKey;
+let time = new Date().getTime();
+let date = new Date(time).toLocaleString();
 
  //guardar valores del DOM 
  const postbtn = document.getElementById("btn-post");
@@ -253,9 +255,9 @@ let currentPostKey;
 //validar que no este vacio para postear
 function validatePost() {
   const postValue = document.getElementById("postArea").value;
-  if (postValue.length === 0) {
-    prompt("texto vacio");
-  }
+  if (postValue.length == 0) {
+  postbtn.disabled = false;
+  } else { postbtn.disabled = true; }
 }
 
 //funcion que crea la coleccion de usuario
@@ -275,7 +277,7 @@ function createCollection() {
     texto: postAreaText,
     likesCount: 0,
     llave : newPostKey,
-    timestamp: startedAt
+    date: date
   });
 }
 
@@ -321,7 +323,7 @@ function imprimir(){
       <div class = "input_text_post">           
       <div> ${newPost.val().nombre}</div> 
       <div> : ${newPost.val().texto} </div>
-      <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
+      <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" data-like="${newPost.llave}" onclick="counterLikes(event)"></i><p id="likes-counter">${newPostval().counterLikes}</p></button>
       <button class = "btn-post" onclick="eliminarPost('${newPost.val().llave}')"><i class="fas fa-trash"></i></button>
       <button class = "btn-post" onclick="editarPost('${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
       </div>
@@ -374,6 +376,7 @@ const lastUpdate =  () => {
   firebase.database().ref('post').child(currentPostKey).update({
     texto: editText
   });
+
   showEditPost();
 }
 
@@ -395,7 +398,7 @@ const showEditPost = () => {
   }
 
 // Función contador de LIKES
-let i = 0;
+/*let i = 0;
 function counterLikes(cUserName, texto) {
   // const btnLike = document.getElementById('btnLikes');
   i = i + 1;
@@ -413,4 +416,17 @@ function counterLikes(cUserName, texto) {
   return firebase.database().ref().update(updates);
   
   }
+}*/
+
+function counterLikes(event) {
+  
+  const idLike = event.target.getAttribute('data-like');
+  firebase.database().ref('post/' + idLike).once('value', function (posts) {
+    let total = (post.child('likesCount').val() || 1);
+    if(posts) {
+      firebase.database().ref('post').child(idLike).update({
+        likesCount: total,
+      });
+    }
+  })
 }
