@@ -6,6 +6,8 @@ const settings = {timestampsInSnapshots: true};
 window.onload = () => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
+      const currentUser = firebase.auth().currentUser;
+      console.log("currentuser.id");
       //Si estamos logueados
       loggedOut.style.display = "none";
       loggedIn.style.display = "block";   
@@ -54,7 +56,7 @@ function login() {
 function logout() {
   firebase.auth().signOut()
     .then(() => {
-      console.log("Vuelve pronto, te extrañaremos");
+      alert("Vuelve pronto, te extrañaremos");
     })
     .catch();
 }
@@ -75,6 +77,7 @@ function loginFacebook() {
       id: user.uid,
       email: user.email,
       edad : userAge.value
+
     })
     })
     .catch((error) => {
@@ -223,7 +226,7 @@ let texto;
 function validatePost(){
   const postValue = document.getElementById("postArea").value;
   if(postValue.length === 0){
-    prompt("texto vacio");
+    alert("texto vacio");
   }
 }
 <<<<<<< HEAD:mariel/post 4/loginmain.js
@@ -309,10 +312,74 @@ function showNewPost(){
   const cUserName = currentUser.displayName;
   const postAreaText = postArea.value;
   
+<<<<<<< HEAD:mariel/post 4/loginmain.js
+       
+})
+
+//funcion que guarda el nombre del usuario
+db.collection("users").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  userName = doc.data().nombre;
+  //console.log(userName);
+}) 
+})
+//funcion que guarda el texto
+db.collection("usersPost").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  textSaved = doc.data().texto;
+  //console.log(userName);
+}) 
+})
+//funcion que guarda el texto
+db.collection("usersPost").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+  id_post = doc.id;
+  //console.log(userName);
+}) 
+
+})
+//escuchando el evento onSnapshot, cada vez que se crea un post
+function createCollection(){ 
+  const postArea = document.getElementById("postArea");
+
+    const currentUser = firebase.auth().currentUser; 
+    const postAreaText = postArea.value;
+    const startedAt = firebase.database.ServerValue.TIMESTAMP;
+
+    db.collection("usersPost").add({
+    nombre : userName,
+    usuario:  currentUser.uid,
+    texto : postAreaText,
+    timestamp: startedAt
+
+  }) 
+  .then(function(docRef) {
+    //console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      //console.error("Error adding document: ", error);
+  });  
+}
+
+//funcion que imprime el resultado  
+function showNewPost(){
+  const showPostArea = document.getElementById("addPostUser");
+      
+      const currentUser = firebase.auth().currentUser; 
+      const postAreaText = postArea.value;
+      const startedAt = firebase.database.ServerValue.TIMESTAMP;
+
+      const postRef = db.collection("usersPost");
+
+      postRef.doc(userName).set({
+        nombre : userName,
+=======
       db.collection(cUserName).add({
         nombre : cUserName,
+>>>>>>> upstream/master:mariel/post 4_cloud/loginmain.js
         usuario:  currentUser.uid,
-        texto : postAreaText
+        texto : postAreaText,
+        timestamp: startedAt
          });
 };
 
