@@ -151,6 +151,10 @@ i {
   display: inline;
 }
 
+#edit-saved{
+  display: none;
+}
+
 @media screen and (max-width: 425px) {
   #new-post-container { 
     width: 250px;
