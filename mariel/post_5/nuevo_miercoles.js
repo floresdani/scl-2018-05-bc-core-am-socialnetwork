@@ -36,16 +36,9 @@ window.onload = () => {
 
       //evento del boton postear 
       postbtn.addEventListener('click', () => {
-
-
-        const postValue = document.getElementById("postArea").value;
-        if (postValue.length == 0) {
-        postbtn.disabled = false;
-        } else {
-        postbtn.disabled = true;
-          createCollection();
-          imprimir();
-        }
+        validatePost();
+        createCollection();
+        imprimir();
       })
       //const user = firebase.auth().currentUser;
       //if(user){
@@ -110,7 +103,7 @@ function loginFacebook() {
         id: user.uid,
         email: user.email,
         edad: userAge.value,
-        likesCount: 0
+        likesCount: 0,
 
       })
     })
@@ -231,9 +224,7 @@ createAcountBtn.addEventListener('click', () => {
         nombre: userNameInput.value,
         id: user.uid,
         email: user.email,
-        edad: userAge.value,
-        
-
+        edad: userAge.value        
       })
         .then(function (docRef) {
           //console.log("Document written with ID: ", docRef.id);
@@ -248,19 +239,18 @@ createAcountBtn.addEventListener('click', () => {
 })
 //========================================HOME========================================
 //variables globales
-let collectionRef;
-let id;
 let nombre;
 let texto;
+let editText; 
+let currentPostKey;
 let time = new Date().getTime();
 let date = new Date(time).toLocaleString();
 
-let newPostKey;
-
-//guardar valores del DOM 
-const postbtn = document.getElementById("btn-post");
-const postArea = document.getElementById("postArea");
-const postValue = document.getElementById("postArea").value;
+ //guardar valores del DOM 
+ const postbtn = document.getElementById("btn-post");
+ const postArea = document.getElementById("postArea");
+ const postValue = document.getElementById("postArea").value;
+ const showPostArea = document.getElementById("addPostUser");
 
 //validar que no este vacio para postear
 function validatePost() {
@@ -279,12 +269,14 @@ function createCollection() {
 
   //crear llave de cada post 
   const newPostKey = firebase.database().ref().child('post').push().key;
+  const startedAt = firebase.database.ServerValue.TIMESTAMP;
 
   firebase.database().ref(`post/${newPostKey}`).set({
     nombre: cUserName,
     usuario: currentUser.uid,
     texto: postAreaText,
-    llave: newPostKey,
+    likesCount: 0,
+    llave : newPostKey,
     date: date
   });
 }
@@ -311,9 +303,10 @@ function createCollection() {
 */
 
 //funcion que imprime 
-function imprimir() {
-  let postValue = document.getElementById("postArea");
-  const showPostArea = document.getElementById("addPostUser");
+function imprimir(){
+  
+     // limpiar el textarea
+     document.getElementById('postArea').value = ' ';
   //imprimiendo en html el post 
   //Acá comenzamos a escuchar por nuevos mensajes usando el evento
   //on child_added
@@ -321,16 +314,18 @@ function imprimir() {
     .limitToLast(1)//cuántos post aparecerán antes de ser borrados
     .on('child_added', (newPost) => {
       //console.log(postValue);
-      postArea.innerHTML = "";
       //console.log(Object.values(newPost));
       //console.log(newPost)
+      currentPostKey = newPost.val().llave;
+      nombre = newPost.val().nombre;
+      texto =  newPost.val().texto;
       showPostArea.innerHTML += `
       <div class = "input_text_post">           
       <div> ${newPost.val().nombre}</div> 
       <div> : ${newPost.val().texto} </div>
       <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" data-like="${newPost.llave}" onclick="counterLikes(event)"></i><p id="likes-counter">${newPostval().counterLikes}</p></button>
       <button class = "btn-post" onclick="eliminarPost('${newPost.val().llave}')"><i class="fas fa-trash"></i></button>
-      <button class = "btn-post" onclick="editarPost('${newPost.val().llave}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
+      <button class = "btn-post" onclick="editarPost('${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
       </div>
       `;
     });
@@ -345,61 +340,62 @@ function eliminarPost(cUserName) {
     console.error("Error removing document: ", error);
   });
 };
-//guardar nuevo valor del texto
-let editText;
+
 //funcion de editar post
 
-function editarPost(currentPostKey, texto) {
-  const showPostArea = document.getElementById("addPostUser");
-  showPostArea.innerHTML = "";
+function editarPost(texto){
+  document.getElementById("postArea").value = texto;
+  const editButton = document.getElementById("edit-saved");
+  editButton.style.display = "block";
+  showPostArea.innerHTML = ""; 
+  /*const showPostArea = document.getElementById("addPostUser");
+  showPostArea.innerHTML = ""; 
   const editButton = document.getElementById("edit-saved");
   editButton.style.display = "block";
 
-  editButton.addEventListener('click', () => {
+  editButton.addEventListener('click', () => { 
     document.getElementById("postArea").value = texto;
     document.getElementById("postArea").addEventListener('keypress', () => {
       editText = document.getElementById("postArea").value;
     })
-    lastUpdate(currentPostKey);
-
-  });
-
-}
+    lastUpdate(currentPostKey); 
+ 
+     });
+    */
+   }
+//tomar boton guardar desde el DOM
+const editButton = document.getElementById("edit-saved");
+editButton.addEventListener('click', () => { 
+  lastUpdate(); 
+})
 //funcion actualizar info
-const lastUpdate = (currentPostKey) => {
-  const editButton = document.getElementById("edit-saved");
-  const edit = document.getElementById("postArea").value;
-  //console.log(currentPostKey); 
-  const ref = firebase.database().ref(`post/${currentPostKey}`);
-  console.log(ref.val().texto);
-  //const actual = ref.getAttribute('texto');
-  //console.log(actual);
-  update({
+const lastUpdate =  () => {
+  //guardar nuevo valor del texto
+  editText = document.getElementById("postArea").value;
+  console.log(currentPostKey); 
+  firebase.database().ref('post').child(currentPostKey).update({
     texto: editText
   });
+
+  showEditPost();
+}
+
+//funcion que muestra el post actualizado 
+const showEditPost = () => {
   editButton.style.display = "none";
+  // limpiar el textarea
+  document.getElementById('postArea').value = ' ';
 
-  firebase.database().ref('post')
-    .on('child_changed', (newPost) => {
-      const showPostArea = document.getElementById("addPostUser");
-
-      showPostArea.innerHTML += `
-  <div class = "input_text_post">             
-  <div> ${newPost.val().nombre}</div> 
-  <div> : ${newPost.val().texto} </div>
-  <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" data-like="${currentPostKey}" onclick="counterLikes(event)"></i><p id="likes-counter">${currentPostKey.val().counterLikes}</p></button>
-  <button class = "btn-post" onclick="eliminarPost('${currentPostKey}')"><i class="fas fa-trash"></i></button>
-  <button class = "btn-post" onclick="editarPost('${currentPostKey}', '${newPost.val().texto}')"><i class="fas fa-pencil-alt"></i></button>
-  </div>
-  `;
-    })
-
-}
-
-//funcion que borra el post anterior 
-function deleteOld() {
-
-}
+    showPostArea.innerHTML += `
+    <div class = "input_text_post">           
+    <div> ${nombre}</div> 
+    <div> : ${editText} </div>
+    <button id="btnLikes" class = "btn-post"><i class="fas fa-heart" onclick="counterLikes()"></i><p id="likes-counter"></p></button>
+    <button class = "btn-post" onclick="eliminarPost('${currentPostKey}')"><i class="fas fa-trash"></i></button>
+    <button class = "btn-post" onclick="editarPost('${editText}')"><i class="fas fa-pencil-alt"></i></button>
+    </div>
+    `;
+  }
 
 // Función contador de LIKES
 /*let i = 0;
@@ -413,7 +409,12 @@ function counterLikes(cUserName, texto) {
   showLikes.value = i;
   if (i > 1 || i == 2) {
     document.getElementById('btnLikes').disabled = true;
-    
+  var updates = {};
+  updates['/posts/' + newPostKey] = postData;
+  updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+  return firebase.database().ref().update(updates);
+  
   }
 }*/
 
