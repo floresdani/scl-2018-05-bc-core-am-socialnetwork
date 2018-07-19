@@ -130,6 +130,7 @@ header{
 body{
   background-color: #A7D9A2;
 }
+
 #register_section{
   display: block;
   padding: 0%;
@@ -220,6 +221,7 @@ body{
 
 /*Estilo navBar*/
 #navBar {
+  z-index: 40;
   display: none;
   background-color: #F2B84B;
 }
@@ -472,7 +474,7 @@ i {
   margin: 0%;
 }
 
-/* Estilo Perfil
+/* Estilo Perfil 
 
 #loggedProfile{
   display: none;
@@ -480,10 +482,6 @@ i {
 
 .contactData {
   margin: 10px;
-}
-
-img {
-  z-index: 0;
 }
 
 /* Estilo Chat*/

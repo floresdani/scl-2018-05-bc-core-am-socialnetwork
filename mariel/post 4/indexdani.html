@@ -40,7 +40,7 @@
         </div>
         <div class="input_container">
           <label for="exampleInputPassword1">Contraseña</label>
-          <input id="password" type="password" class="form-control" id="exampleInputPassword1">
+          <input id="password_register" type="password" class="form-control" id="exampleInputPassword1">
         </div>
         <div id="containerBtn">
           <button id="loginBtn" class="btnBlueEnter" onclick="login()" type="button" value="LOGIN">Ingresar</button>
@@ -64,18 +64,81 @@
             </button>
             <!-- Aquí termina el ingreso con Facebook y Google -->
           </div>
+<<<<<<< HEAD
           <!-- Aquí comienza registrar usuario -->
           <div id="register_container">
+=======
+          <!-- contenedor boton registrar usuario -->
+          <div id=register_container>
+>>>>>>> 09400a48e1666242f82b108ddce2dd34cce4c2c1
             <div class="titles">
               <h6>¿No tienes cuenta?</h6>
             </div>
             <div class="btn_container"></div>
             <button id="registerBtn" class="btnBlue" onclick="register()" type="button">Registro</button>
           </div>
-          <!-- Aquí termina registrar usuario -->
+          <!-- Aquí termina contenedor boton registrar usuario -->
         </div>
       </div>
     </div>
+    <div class="container-fluid" id="register_section">
+      <div class="row"><!-- comiezo row -->
+        <div class="col-12"><!-- comienzo col12 -->
+          <header class="container-fluid">
+           <div id="nombre_rrss">
+          
+              <p>Siembramigos</p>
+            </div>
+          </header>
+    
+        </div><!-- fin col12 -->
+      </div><!-- fin row -->
+    
+      <div class="row"><!-- comienzo row -->
+        <div class="col-12 col-align-self-center"><!-- comienzo col12 -->
+          <div>
+            <section id="form_section" class="col-sm-8 col-md-6 col-lg-4">
+              <div id="title_div">
+              <p id="title">Crear una cuenta</p>
+              </div>
+              <div id="inputs_div">
+                <!--formulario para crear usuario-->
+                <p class="nombre_input">Nombre</p>
+                <input type="text" class="input_place" name="name" id="name_input" placeholder="Escribe tu nombre aquí">
+                <p id="error_nombre" class="error"></p>
+                <p class="nombre_input">Edad</p>
+                <input type="number" class="input_place" name="edad" id="edad_input" placeholder="edad"> 
+                <p class="nombre_input">Email</p>
+                <input id="email_register" type="email" class="input_place" placeholder="mimail@gmail.com">
+                <p class="nombre_input">Contraseña</p>
+                <input id="password" type="password" class="input_place" placeholder="escribe tu clave">
+                
+                <p class="error" id="email_invalid"></p>
+                <p id="error_password" class="error"></p>
+                <p class="nombre_input">Confirmar contraseña</p>
+                <input type="password" class="input_place" name="confirm" id="confirm_password" placeholder="repite tu clave">
+                <p id="error_confirm_password" class="error"></p>
+              </div>
+              <div id="validation_div">
+                <!--check boxes y boton para crear cuenta-->
+                <div class="row">
+                  <input type="checkbox" aria-label="Checkbox para recordar usuario" name="check_1" id="rememeber_check"><p class="check_text" id="remember_text">Recordarme</p> 
+                </div>
+                <div class="row">
+                  <input type="checkbox" aria-label="Checkbox para aceptar terminos y condiciones del servicio" name="check_2" id="terms_check"><p class="check_text" id="terms_text">Acepto los terminos y <br> condiciones </p> 
+                </div>
+                <input type="button" id="create_acount_button" value="REGISTRAR">
+                </div>
+               
+              </div>
+              </section><!-- section form -->
+            </div><!-- fin de col align self-center -->
+    
+            </div>      
+        </div><!-- fin col12 -->
+      </div><!-- fin row -->
+    
+    </div><!-- fin de container-fluid -->
 
     <!-- Aquí comienza página HOME -->
     <section id="loggedHome">

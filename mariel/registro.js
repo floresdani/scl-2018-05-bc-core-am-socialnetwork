@@ -3,7 +3,7 @@
 // Initialize Cloud Firestore through Firebase
 var db = firebase.firestore();
 
-const userName = document.getElementById("name_input" );
+const userNameInput = document.getElementById("name_input" );
 //tomar valores del DOM
 const errorNombre = document.getElementById("error_nombre");
 const userAge = document.getElementById("edad_input");
@@ -22,9 +22,9 @@ const createAcountBtn = document.getElementById("create_acount_button");
 
 
 //validar que el nombre sean solo letras 
-userName.addEventListener('keyup', () =>{
+userNameInput.addEventListener('keyup', () =>{
   var letras=/^[A-Za-z\_\-\.\s\xF1\xD1]+$/;
-  if(letras.test(userName.value)) {
+  if(letras.test(userNameInput.value)) {
     errorNombre.innerHTML = " ";
   } else {
     errorNombre.innerHTML = "El nombre debe contener solo letras";
@@ -68,7 +68,7 @@ rememberMe.addEventListener('change', saveLocalUser, false);
     if(checked){
       window.localStorage.setItem('password', JSON.stringify(password.value));
       window.localStorage.setItem('email', JSON.stringify(email.value));
-      window.localStorage.setItem('nombre', JSON.stringify(userName.value));
+      window.localStorage.setItem('nombre', JSON.stringify(userNameInput.value));
       window.localStorage.setItem('edad', JSON.stringify(userAge.value));
     }
   }
@@ -87,7 +87,7 @@ createAcountBtn.addEventListener('click', () => {
     const user = firebase.auth().currentUser;
 
     db.collection("users").add({
-      nombre:  userName.value,
+      nombre:  userNameInput.value,
       id: user.uid,
       email: user.email,
       edad : userAge.value

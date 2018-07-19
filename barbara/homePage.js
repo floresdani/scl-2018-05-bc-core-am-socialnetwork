@@ -1,3 +1,8 @@
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+const settings = {timestampsInSnapshots: true};
+  db.settings(settings);
+
 window.onload = () => {
   
   inicializarFirebase();
@@ -28,17 +33,21 @@ window.onload = () => {
       const displayName = user.displayName;
       const userPhoto = user.photoURL;
       const phoneNumber = user.phoneNumber;
-      const email = user.email; 
+      const email = user.email;
       
       // Imprimiendo imagen de perfil en el muro
       homePageImageUser.style.backgroundImage = "url("+userPhoto+")";
 
-      // Imprimiendo nombre y foto en perfil
+      // Imprimiendo datos de contacto y foto en perfil
       profileName.textContent = displayName;
       profileImage.style.backgroundImage = "url("+userPhoto+")";
-
       emailProfile.textContent = email;
       phone.textContent = phoneNumber;
+
+      function accesToProfile () {
+        loggedHome.style.display = "none";
+        loggedProfile.style.display = "block";
+      };
 
       console.log("User > " + JSON.stringify(user));
 
@@ -47,7 +56,6 @@ window.onload = () => {
       landingPage.style.display = "block";
       navBar.style.display = "none";
       loggedHome.style.display = "none";
-
     }
   });
 }
@@ -92,14 +100,10 @@ function login() {
 function logout() {
   firebase.auth().signOut()
     .then(() => {
-      const logOutBtn = document.getElementById('logOutButton');
-      logOutBtn.addEventListener('click',() => {
         landingPage.style.display = "block";
         navBar.style.display = "none";
         loggedOut.style.display = "none";
-      });
-
-      console.log("Vuelve pronto, te extrañaremos");
+        console.log("Vuelve pronto, te extrañaremos");
     })
     .catch();
 }
@@ -233,7 +237,7 @@ function sendChat() {
 // Initialize Cloud Firestore through Firebase
 var db = firebase.firestore();
 
-const userName = document.getElementById("name_input" );
+const userName = document.getElementById("name_input");
 //tomar valores del DOM
 const errorNombre = document.getElementById("error_nombre");
 const userAge = document.getElementById("edad_input");
@@ -254,7 +258,7 @@ userName.addEventListener('keyup', () =>{
   if(letras.test(userName.value)) {
     errorNombre.innerHTML = " ";
   } else {
-    errorNombre.innerHTML = "El nombre debe contener solo letras";
+    errorNombre.innerHTML = "El nombre debe contener sólo letras";
   }
 })
 
