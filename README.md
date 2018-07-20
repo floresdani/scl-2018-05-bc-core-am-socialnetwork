@@ -24,21 +24,21 @@ Para diseñar el prototipo de baja fidelidad de utilizó el programa Balsamiq Mo
 
 Landing page: página de bienvenida que cuenta de qué se trata la aplicación y su objetivo.
 
-![Github Logo](src/UX/prototipo_baja/landing-page.png)
+![Github Logo](src/ux-design/prototipo_baja/landing-page.png)
 
 
 Sección Log In, donde el usuario podrá ingresar con correo electrónico, o iniciar sesión directamente con Facebook o Google.
 
-![Github Logo](src/UX/prototipo_baja/login.png)
+![Github Logo](src/ux-design/prototipo_baja/login.png)
 
 
 Sección registro, formulario donde el usuario ingresará sus datos para crear cuenta.
 
-![Github Logo](src/UX/prototipo_baja/registro.png)
+![Github Logo](src/ux-design/prototipo_baja/registro.png)
 
 Ingreso al muro del usuario, sección donde aparecerán las publicaciones de los amigos del usuario.
 
-![Github Logo](src/UX/prototipo_baja/comunidad.png)
+![Github Logo](src/ux-design/prototipo_baja/comunidad.png)
 
 
 
@@ -48,29 +48,29 @@ Para diseñar el prototipo de alta fidelidad de utilizó el programa Figma y con
 
 Landing Page
 
-![Github Logo](src/UX/prototipo_alta/landing-page.png)
+![Github Logo](src/ux-design/prototipo_alta/landing-page.png)
 
 Sección Log In
 
-![Github Logo](src/UX/prototipo_alta/login.png)
+![Github Logo](src/ux-design/prototipo_alta/login.png)
 
 
 Sección de registro
 
-![Github Logo](src/UX/prototipo_alta/register.png)
+![Github Logo](src/ux-design/prototipo_alta/register.png)
 
 
 Ingreso al muro del usuario
 
-![Github Logo](src/UX/prototipo_alta/comunidad-1.png)
+![Github Logo](src/ux-design/prototipo_alta/comunidad-1.png)
 
 
 Sección amigos del usuario
 
-![Github Logo](src/UX/prototipo_alta/users.png)
+![Github Logo](src/ux-design/prototipo_alta/users.png)
 
 
 Sección chat
 
-![Github Logo](src/UX/prototipo_alta/mensajes.png)
+![Github Logo](src/ux-design/prototipo_alta/mensajes.png)
 
