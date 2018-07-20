@@ -19,7 +19,7 @@
 <body>
   <!--Landing page-->
 
-  <header>
+  <header id="containerLogo">
     <div id="logoSiembramigos">
       <h1>
         <img src="img/carpa_icon.png">Siembramigos</h1>
@@ -93,7 +93,7 @@
           </div>
           <div class="input_container">
             <label for="exampleInputPassword1">Contraseña</label>
-            <input id="password_register" type="password" class="form-control" id="exampleInputPassword1">
+            <input id="password_register" type="password" class="form-control">
           </div>
           <div id="containerBtn">
             <button id="loginBtn" class="btnBlueEnter" onclick="login()" type="button" value="LOGIN">Ingresar</button>
@@ -130,7 +130,8 @@
   </section>
 
   <section id="formRegisterPage">
-    <div class="container-fluid" id="register_section">
+    
+      <div class="container-fluid" id="register_section">
       <div class="row">
         <!-- comiezo row -->
         <div class="col-12">
@@ -143,7 +144,7 @@
 
         </div>
         <!-- fin col12 -->
-      </div>
+      </div> 
 
       <div class="row">
         <!-- comienzo row -->
@@ -183,7 +184,7 @@
                   <p class="check_text" id="terms_text">Acepto los terminos y
                     <br> condiciones </p>
                 </div>
-                <input type="button" id="create_acount_button" value="REGISTRAR">
+                <input type="button" id="create_acount_button" onclick="createAccount()" value="REGISTRAR">
               </div>
 
             </div>
@@ -197,13 +198,13 @@
     </div>
     <!-- fin row -->
 
-
     <!-- fin de container-fluid -->
   </section>
-  <!-- Aquí comienza página HOME -->
-  <section id="loggedHomePage">
-    <!--Navbar-->
 
+  <!-- Aquí comienza página HOME -->
+  
+    <!--Navbar-->
+  <section id="navBar">
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="#">Muro</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -229,8 +230,10 @@
         </ul>
       </div>
     </nav>
+    </section>
 
     <!--Aca comienza la tarjeta del nuevo post-->
+    <section id="loggedHomePage"></section>
     <div id="new-post-container" class="container col-xs-8 col-sm-12 col-md-8 col-lg-8">
       <div>
         <!--input texto-->
