@@ -27,16 +27,19 @@ Landing page: página de bienvenida que cuenta de qué se trata la aplicación y
 ![Github Logo](src/ux-design/prototipo_baja/landing-page.png)
 
 
-Sección Log In, donde el usuario podrá ingresar con correo electrónico, o iniciar sesión directamente con Facebook o Google.
+#### Sección Log In
+El usuario podrá ingresar con correo electrónico, o iniciar sesión directamente con Facebook o Google.
 
 ![Github Logo](src/ux-design/prototipo_baja/login.png)
 
 
-Sección registro, formulario donde el usuario ingresará sus datos para crear cuenta.
+#### Sección registro
+Formulario donde el usuario ingresará sus datos para crear cuenta.
 
 ![Github Logo](src/ux-design/prototipo_baja/registro.png)
 
-Ingreso al muro del usuario, sección donde aparecerán las publicaciones de los amigos del usuario.
+#### Ingreso al muro del usuario
+Sección donde aparecerán las publicaciones de los amigos del usuario.
 
 ![Github Logo](src/ux-design/prototipo_baja/comunidad.png)
 
@@ -46,31 +49,31 @@ Ingreso al muro del usuario, sección donde aparecerán las publicaciones de los
 
 Para diseñar el prototipo de alta fidelidad de utilizó el programa Figma y consta de las siguientes secciones:
 
-Landing Page
+#### Landing Page
 
 ![Github Logo](src/ux-design/prototipo_alta/landing-page.png)
 
-Sección Log In
+#### Sección Log In
 
 ![Github Logo](src/ux-design/prototipo_alta/login.png)
 
 
-Sección de registro
+#### Sección de registro
 
 ![Github Logo](src/ux-design/prototipo_alta/register.png)
 
 
-Ingreso al muro del usuario
+#### Ingreso al muro del usuario
 
 ![Github Logo](src/ux-design/prototipo_alta/comunidad-1.png)
 
 
-Sección amigos del usuario
+#### Sección amigos del usuario
 
 ![Github Logo](src/ux-design/prototipo_alta/users.png)
 
 
-Sección chat
+#### Sección chat
 
 ![Github Logo](src/ux-design/prototipo_alta/mensajes.png)
 
