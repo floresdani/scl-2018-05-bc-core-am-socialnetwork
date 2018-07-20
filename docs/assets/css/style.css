@@ -1,0 +1,379 @@
+/*==========Aquí comienza estilo de login page==========*/
+body {
+  background-color: #A7D9A2;
+  align-items: center;
+}
+/*DISPLAY*/
+#landingPage {
+  display: block;
+}
+#registerPage {
+  display: none;
+}
+#formRegisterPage {
+  display: none;
+}
+
+#loggedHomePage {
+  display: none;
+}
+
+#logoSiembramigos{
+  background-color: #F2B84B;
+  text-align: center;
+  font-family: roboto;
+  display: block;
+}
+
+#containerLogo{
+  padding: 20px;
+  background-color: #59A686;
+}
+
+p{
+  color: #0D5A3A;
+}
+
+h4{
+  color: #132936;
+}
+
+#paragraph{
+  text-align:center;
+  padding: 10%;
+}
+
+#boton{
+  text-align: center;
+}
+
+#btn-entrar {
+  margin-bottom: 5%;
+  background-color: #F2B84B;
+  color: red;
+  font-weight: bold;
+  border: none;
+  padding: 15px;
+}
+
+/*Estilo página LogIn*/
+
+
+h1, h2, h4 {
+  text-align: center;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#logo {
+  background-color: #59A686;
+}
+
+#loggedOut {
+  margin-top: 4em;
+}
+
+.btn {
+  border-radius: 50%;
+  border-color: transparent;
+  border-width: 0px;
+  padding: 0px;
+  display: inline;
+}
+
+.btnBlue {
+  background: #00BCD4;
+  border-radius: 2px;
+  color: beige;
+}
+
+.btnBlueEnter {
+  background: #00BCD4;
+  border-radius: 2px;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  color: beige;
+}
+
+#btnLoginWith {
+  text-align: center;
+  margin-left: 0px;
+}
+
+#containerBtn {
+  text-align: center;
+}
+  
+.input_container {
+  margin-bottom: 0;
+}
+
+#div_btn {
+  width: 30%;
+  margin: auto;
+}
+
+#register_container {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+ 
+.btn_container {
+  margin-top: 1em;
+}
+
+#loggedOut {
+  margin-top: 4em;
+}
+
+.btn {
+  border-radius: 50%;
+  border-color: transparent;
+  border-width: 0px;
+  padding: 0px;
+  display: inline;
+}
+
+.btnBlue {
+  background: #00BCD4;
+  border-radius: 2px;
+  color: beige;
+}
+
+.btnBlueEnter {
+  background: #00BCD4;
+  border-radius: 2px;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  color: beige;
+  }
+
+#btnLoginWith {
+  text-align: center;
+  margin-left: 0px;
+  }
+
+#containerBtn {
+  text-align: center;
+  }
+  
+.input_container {
+    margin-bottom: 0;
+  }
+
+#div_btn {
+    
+    width: 30%;
+    margin: auto;
+    
+  }
+#register_container {
+margin-top: 2em;
+margin-bottom: 1em;
+}
+ 
+.btn_container {
+  margin-top: 1em;
+}
+
+/*==========Aquí comienza estilo de home page==========*/
+/*Estilo homePage*/
+/*
+#homePage {
+  display: none;
+}
+*/
+#postbody {
+  background-color: #A7D9A2;
+}
+nav {
+  background-color: #F2B84B;
+}
+
+.images-icon {
+  margin: 0%;
+}
+
+#new-post-container { 
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px #A8E8E4;
+  border-radius: 10px;
+  margin-right: 20%;
+  margin-top: 5%;
+}
+
+.input_text_post{
+  box-align: center;
+  background: #FFFFFF;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin-top: 2%;
+  text-align: center;
+  
+}
+
+.new_post_style{
+  box-align: center;
+  background: #FFFFFF;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin-top: 3%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 15%;
+  display: block;
+  
+  
+}
+
+textarea::placeholder {
+  color: #51D145;
+}
+
+/*#newPostFunctions_container{*/
+ /* display: inline; */
+ /* margin: auto; */
+  
+
+#btn-addImages{
+  display: inline;
+  border-radius: 2px;
+  color: beige;
+  border-width: 0px;
+  border-style: none;
+  background: #FFFFFF;
+}
+
+i {
+  color:  #00BCD4;
+}
+#tags{
+  display: inline;
+  background: #FFFFFF;
+  border: 0.5px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 3px;
+  color: #51D145;
+}
+
+
+.btn-post{
+  
+  border-radius: 2px;
+  color: beige;
+  border-width: 0px;
+  border-style: none;
+  background-color: #FFFFFF;
+  margin-top: 2%;
+  height: 35.65px;
+}
+
+#formTag{
+  display: inline;
+}
+
+#edit-saved{
+  display: none;
+}
+#contenedor-sub-post{
+  text-align: center;
+  width: 70%;
+  margin: auto;
+  padding-left: 30%;
+}
+#userPicture_imprimir{
+  padding-left: 0%;
+  padding-right: 30%;
+}
+
+
+@media screen and (max-width: 425px) {
+  #userPicture_imprimir{
+    width: 50px;
+    
+  }
+  #contenedor-sub-post{
+    text-align: center;
+    width: 70%;
+    margin: auto;
+    padding-left: 0%;
+  }
+
+  .new_post_style{
+    width: 294px;
+    height: 236px;
+  }
+  #new-post-container { 
+    width: 286px;
+    left: 17px;
+  }
+  #userPicture_newPost{
+    
+    width: 29.88px;
+    height: 31.5px;
+  }
+  #newPostFunctions_container{
+    margin-left: 0%;
+  }
+ 
+  #images-icon{
+    width: 21.47px;
+    height: 28.33px;
+    
+  }
+  #plus-icon{
+    width: 14.02px;
+    height: 16.6px;
+  }
+  .btn-post{
+    width: 56px;
+    height: 21px;
+    font-size: smaller;
+    text-align: center;
+  }
+
+  #tags{
+    height: 44px;
+    width: 68px;
+  }
+  #formTag{
+    height: 44px;
+    width: 68px;
+    
+  }
+  .input_text_post{
+    width: 250px;
+    margin-right: 50px;
+  }
+}
+
+/*FIN DE TAMAÑO CELULAR S*/
+
+/* Tamaño tablet */ 
+@media screen and (min-width: 760px) {
+  #newPostFunctions_container{
+    margin-left: 8%;
+  }
+  .new_post_style{
+    margin-right: 20%;    
+  }
+} /* FIN Tamaño tablet */ 
+
+/* Tamaño DESKTOP */ 
+@media screen and (min-width: 1024px) {
+  #newPostFunctions_container{ 
+    margin-left: 18%;
+  }
+  #new-post-container{
+    height: 40%;
+  }
+  .new_post_style{
+    margin-right: 20%;    
+  }
+
+} /* FIN Tamaño DESKTOP */
