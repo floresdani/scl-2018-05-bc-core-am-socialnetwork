@@ -330,6 +330,7 @@ function imprimir() {
       </div>
       `;
     });
+    
 }
 
 //Funcion de eliminar post 
@@ -407,19 +408,16 @@ function sumarLikes() {
   showLikes.innerHTML = contador;
   const btnLike = document.getElementById('btnLikes');
   btnLike.disabled = true;
+  actualizarLike();
 }
 
 function actualizarLike() {
+  //guardar nuevo valor del like
 
-  
-    //guardar nuevo valor del like
-    
-    firebase.database().ref('post').child(currentPostKey).update({
-      likesCount: contador
-    });
+  firebase.database().ref('post').child(currentPostKey).update({
+    likesCount: contador
+  });
 
-
-  
 }
 
 
